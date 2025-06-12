@@ -1,5 +1,5 @@
 [versions]
-spring_version = "3.4.5"
+spring_version = "3.5.0"
 spring_dependency_version = "1.1.7"
 mockk_version = "1.14.2"
 spring_mockk_version = "4.0.2"
@@ -8,21 +8,24 @@ kotlin_logging_version = "3.0.5"
 kotlin_jackson = "2.19.0"
 mockito_version = "5.2.0"
 kotlin_mockito_version = "5.4.0"
-zeebe_version = "8.7.1"
 postgres_version = "42.7.5"
+camunda7_version = "7.23.0"
 
 [libraries]
 web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring_version" }
 devtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "spring_version" }
 jpa = { module = 'org.springframework.boot:spring-boot-starter-data-jpa', version.ref = 'spring_version' }
 postgres = { module = 'org.postgresql:postgresql', version.ref = 'postgres_version' }
-zeebeSdk = { module = "io.camunda:spring-boot-starter-camunda-sdk", version.ref = "zeebe_version" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin_version" }
 kotlin_logging = { module = "io.github.microutils:kotlin-logging", version.ref = "kotlin_logging_version" }
 kotlin_jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "kotlin_jackson" }
 
+# Camunda 7 dependencies
+camunda7-webapp = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp", version.ref = "camunda7_version" }
+camunda7-rest = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest", version.ref = "camunda7_version" }
+camunda7-test = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-test", version.ref = "camunda7_version" }
+
 # testing
-zeebeProcessTest = { module = "io.camunda:zeebe-process-test-extension", version.ref = "zeebe_version" }
 spring_test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring_version" }
 mockito = { module = "org.mockito:mockito-inline", version.ref = "mockito_version" }
 kotlin_mockito = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "kotlin_mockito_version" }
@@ -30,9 +33,10 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk_version" }
 spring_mockk = { module = "com.ninja-squad:springmockk", version.ref = "spring_mockk_version" }
 
 [bundles]
-defaultService = ["kotlin-reflect", "kotlin_logging", "devtools", "web", "zeebeSdk"]
+defaultService = ["kotlin-reflect", "kotlin_logging", "devtools", "web"]
 database = ["jpa", "postgres"]
 test = ["spring_test", "mockito", "mockk", "spring_mockk", "kotlin_mockito"]
+camunda7 = ["camunda7-webapp", "camunda7-rest", "camunda7-test"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin_version" }
