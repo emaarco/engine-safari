@@ -5,10 +5,8 @@ import de.emaarco.example.application.port.outbound.NewsletterSubscriptionReposi
 import de.emaarco.example.domain.SubscriptionId
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional(readOnly = true)
 class SendWelcomeMailService(
     private val repository: NewsletterSubscriptionRepository,
 ) : SendWelcomeMailUseCase {

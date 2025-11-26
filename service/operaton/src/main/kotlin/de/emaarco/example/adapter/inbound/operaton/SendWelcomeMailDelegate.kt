@@ -1,8 +1,8 @@
-package de.emaarco.example.adapter.inbound.camunda
+package de.emaarco.example.adapter.inbound.operaton
 
 import de.emaarco.example.application.port.inbound.SendWelcomeMailUseCase
 import de.emaarco.example.domain.SubscriptionId
-import org.camunda.bpm.engine.delegate.DelegateExecution
+import org.operaton.bpm.engine.delegate.DelegateExecution
 import org.springframework.stereotype.Component
 import java.util.*
 

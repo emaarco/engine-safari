@@ -1,7 +1,7 @@
-package de.emaarco.example.adapter.inbound.camunda
+package de.emaarco.example.adapter.inbound.operaton
 
-import org.camunda.bpm.engine.delegate.DelegateExecution
-import org.camunda.bpm.engine.delegate.JavaDelegate
+import org.operaton.bpm.engine.delegate.DelegateExecution
+import org.operaton.bpm.engine.delegate.JavaDelegate
 import mu.KotlinLogging
 
 abstract class BaseDelegate : JavaDelegate {
@@ -11,7 +11,7 @@ abstract class BaseDelegate : JavaDelegate {
         try {
             executeTask(execution)
         } catch (e: Exception) {
-            log.error(e) { "Error while processing Camunda task" }
+            log.error(e) { "Error while processing Operaton task" }
             throw e
         }
     }

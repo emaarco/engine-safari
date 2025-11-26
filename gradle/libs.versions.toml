@@ -1,42 +1,48 @@
 [versions]
-spring_version = "3.5.7"
+spring_version = "3.5.0"
 spring_dependency_version = "1.1.7"
-mockk_version = "1.14.6"
-spring_mockk_version = "4.0.2"
-kotlin_version = "2.2.21"
+kotlin_version = "2.1.21"
 kotlin_logging_version = "3.0.5"
-kotlin_jackson = "2.20.1"
-mockito_version = "5.2.0"
-kotlin_mockito_version = "6.1.0"
-postgres_version = "42.7.8"
 camunda7_version = "7.24.0"
+operaton_version = "1.0.0"
 
 [libraries]
 web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring_version" }
 devtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "spring_version" }
-jpa = { module = 'org.springframework.boot:spring-boot-starter-data-jpa', version.ref = 'spring_version' }
-postgres = { module = 'org.postgresql:postgresql', version.ref = 'postgres_version' }
+jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring_version" }
+postgres = { module = "org.postgresql:postgresql", version = "42.7.7" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin_version" }
 kotlin_logging = { module = "io.github.microutils:kotlin-logging", version.ref = "kotlin_logging_version" }
-kotlin_jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "kotlin_jackson" }
+kotlin_jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version = "2.19.0" }
 
 # Camunda 7 dependencies
 camunda7-webapp = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp", version.ref = "camunda7_version" }
 camunda7-rest = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest", version.ref = "camunda7_version" }
-camunda7-test = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-test", version.ref = "camunda7_version" }
+
+# Operaton dependencies
+operaton-webapp = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-boot-starter-webapp", version.ref = "operaton_version" }
+operaton-rest = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-boot-starter-rest", version.ref = "operaton_version" }
+
+# Process Engine API dependencies
+process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.4" }
+process-engine-worker = { module = "dev.bpm-crafters.process-engine-worker:process-engine-worker-spring-boot-starter", version = "0.7.0" }
+process-engine-adapter-c7-embedded = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-camunda-platform-c7-embedded-spring-boot-starter", version = "2025.11.1" }
+process-engine-adapter-c7-bom = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-camunda-platform-c7-bom", version = "2025.11.1" }
 
 # testing
 spring_test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring_version" }
-mockito = { module = "org.mockito:mockito-inline", version.ref = "mockito_version" }
-kotlin_mockito = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "kotlin_mockito_version" }
-mockk = { module = "io.mockk:mockk", version.ref = "mockk_version" }
-spring_mockk = { module = "com.ninja-squad:springmockk", version.ref = "spring_mockk_version" }
+mockito = { module = "org.mockito:mockito-inline", version = "5.2.0" }
+kotlin_mockito = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.4.0" }
+mockk = { module = "io.mockk:mockk", version = "1.14.2" }
+spring_mockk = { module = "com.ninja-squad:springmockk", version = "4.0.2" }
 
 [bundles]
 defaultService = ["kotlin-reflect", "kotlin_logging", "devtools", "web"]
 database = ["jpa", "postgres"]
 test = ["spring_test", "mockito", "mockk", "spring_mockk", "kotlin_mockito"]
-camunda7 = ["camunda7-webapp", "camunda7-rest", "camunda7-test"]
+camunda7 = ["camunda7-webapp", "camunda7-rest"]
+operaton = ["operaton-webapp", "operaton-rest"]
+processEngineApi = ["process-engine-api", "process-engine-adapter-c7-embedded", "process-engine-worker"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin_version" }
