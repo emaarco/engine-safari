@@ -6,58 +6,59 @@ package de.emaarco.example.adapter.process
 import kotlin.String
 import kotlin.Suppress
 
-@Suppress("unused")
 object NewsletterSubscriptionProcessApi {
-  val PROCESS_ID: String = "newsletterSubscription"
+  const val PROCESS_ID: String = "newsletterSubscription"
 
   object Elements {
-    val Timer_EveryDay: String = "Timer_EveryDay"
+    const val TIMER_EVERY_DAY: String = "Timer_EveryDay"
 
-    val ErrorEvent_InvalidMail: String = "ErrorEvent_InvalidMail"
+    const val ERROR_EVENT_INVALID_MAIL: String = "ErrorEvent_InvalidMail"
 
-    val Timer_After3Days: String = "Timer_After3Days"
+    const val TIMER_AFTER_3_DAYS: String = "Timer_After3Days"
 
-    val Activity_ConfirmRegistration: String = "Activity_ConfirmRegistration"
+    const val ACTIVITY_CONFIRM_REGISTRATION: String = "Activity_ConfirmRegistration"
 
-    val SubProcess_Confirmation: String = "SubProcess_Confirmation"
+    const val SUB_PROCESS_CONFIRMATION: String = "SubProcess_Confirmation"
 
-    val EndEvent_SubscriptionConfirmed: String = "EndEvent_SubscriptionConfirmed"
+    const val END_EVENT_SUBSCRIPTION_CONFIRMED: String = "EndEvent_SubscriptionConfirmed"
 
-    val EndEvent_RegistrationAborted: String = "EndEvent_RegistrationAborted"
+    const val END_EVENT_REGISTRATION_ABORTED: String = "EndEvent_RegistrationAborted"
 
-    val EndEvent_RegistrationNotPossible: String = "EndEvent_RegistrationNotPossible"
+    const val END_EVENT_REGISTRATION_NOT_POSSIBLE: String =
+        "EndEvent_RegistrationNotPossible"
 
-    val EndEvent_RegistrationCompleted: String = "EndEvent_RegistrationCompleted"
+    const val END_EVENT_REGISTRATION_COMPLETED: String = "EndEvent_RegistrationCompleted"
 
-    val Activity_SendConfirmationMail: String = "Activity_SendConfirmationMail"
+    const val ACTIVITY_SEND_CONFIRMATION_MAIL: String = "Activity_SendConfirmationMail"
 
-    val Activity_AbortRegistration: String = "Activity_AbortRegistration"
+    const val ACTIVITY_ABORT_REGISTRATION: String = "Activity_AbortRegistration"
 
-    val Activity_SendWelcomeMail: String = "Activity_SendWelcomeMail"
+    const val ACTIVITY_SEND_WELCOME_MAIL: String = "Activity_SendWelcomeMail"
 
-    val StartEvent_SubmitRegistrationForm: String = "StartEvent_SubmitRegistrationForm"
+    const val START_EVENT_SUBMIT_REGISTRATION_FORM: String =
+        "StartEvent_SubmitRegistrationForm"
 
-    val StartEvent_RequestReceived: String = "StartEvent_RequestReceived"
+    const val START_EVENT_REQUEST_RECEIVED: String = "StartEvent_RequestReceived"
   }
 
   object Messages {
-    val Message_FormSubmitted: String = "Message_FormSubmitted"
+    const val MESSAGE_FORM_SUBMITTED: String = "Message_FormSubmitted"
 
-    val Message_SubscriptionConfirmed: String = "Message_SubscriptionConfirmed"
+    const val MESSAGE_SUBSCRIPTION_CONFIRMED: String = "Message_SubscriptionConfirmed"
   }
 
   object TaskTypes {
-    val Activity_SendConfirmationMail: String = "#{sendConfirmationMailDelegate}"
+    const val ACTIVITY_SEND_CONFIRMATION_MAIL: String = "#{sendConfirmationMailDelegate}"
 
-    val Activity_AbortRegistration: String = "#{abortRegistrationDelegate}"
+    const val ACTIVITY_ABORT_REGISTRATION: String = "#{abortRegistrationDelegate}"
 
-    val Activity_SendWelcomeMail: String = "#{sendWelcomeMailDelegate}"
+    const val ACTIVITY_SEND_WELCOME_MAIL: String = "#{sendWelcomeMailDelegate}"
   }
 
   object Timers {
-    val Timer_EveryDay: BpmnTimer = BpmnTimer("Duration", "PT1M")
+    val TIMER_EVERY_DAY: BpmnTimer = BpmnTimer("Duration", "PT1M")
 
-    val Timer_After3Days: BpmnTimer = BpmnTimer("Duration", "PT2M30S")
+    val TIMER_AFTER_3_DAYS: BpmnTimer = BpmnTimer("Duration", "PT2M30S")
 
     data class BpmnTimer(
       val type: String,
@@ -66,7 +67,7 @@ object NewsletterSubscriptionProcessApi {
   }
 
   object Errors {
-    val Error_InvalidMail: BpmnError = BpmnError("Error_InvalidMail", "500")
+    val ERROR_INVALID_MAIL: BpmnError = BpmnError("Error_InvalidMail", "500")
 
     data class BpmnError(
       val name: String,
@@ -75,6 +76,6 @@ object NewsletterSubscriptionProcessApi {
   }
 
   object Signals {
-    val Signal_RegistrationNotPossible: String = "Signal_RegistrationNotPossible"
+    const val SIGNAL_REGISTRATION_NOT_POSSIBLE: String = "Signal_RegistrationNotPossible"
   }
 }
