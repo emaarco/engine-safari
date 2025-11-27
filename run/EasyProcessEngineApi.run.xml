@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="EasyApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="EasyProcessEngineApi" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
     <module name="easy-c7.service.c7-with-process-engine-api.main" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="de.emaarco.example.ExampleApplication" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="de.emaarco.example.EasyProcessEngineApiKt" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />
       <option name="IS_SUBST" value="false" />

@@ -1,48 +1,85 @@
-# 🚀 Easy C7
+# 🦁 Engine Safari
 
-Welcome to **Easy C7** – a helpful example setup for using **Camunda 7** as a process engine to orchestrate BPMN workflows! This repository demonstrates how to integrate Camunda 7 into a Spring-based service and offers a comprehensive testing setup.
+Welcome to **Engine Safari** –
+your hands-on exploration of embedded BPMN workflow engines! 🌍
 
-Whether you're just getting started with Camunda 7 or looking for a reliable testing setup, **easy-c7** has got you covered! 💡
+## 🧭 Why This Exists
 
-## ⚠️ Important Notice
+Camunda 7 is reaching **end of life**.
+If you're running it, migration planning isn't optional anymore – it's survival.
 
-Camunda 7 is approaching its end of life, with official support ending in late 2025. If you're starting a new project, you might want to consider these alternatives:
+This repository explores the embedded engine landscape:
+where can you go if you need to migrate?
+What are your options if you want to stick with embedded orchestration
+rather than moving to remote/cloud-based solutions?
 
-- **Camunda 8 (Zeebe)**: The official successor to Camunda 7, offering improved scalability and cloud-native architecture
-- **Community Forks**: Several community-maintained forks of Camunda 7 that will continue to receive updates and support
-- **Other BPMN Engines**: Various other open-source BPMN workflow engines available in the market
+While **Camunda 8 (Zeebe)** is the cloud-native, remote successor
+(explored in our sister repo [easy-zeebe](https://github.com/marcoag/easy-zeebe)),
+this safari focuses on **embedded alternatives** –
+engines that run in-process with your application.
 
-If you're currently using Camunda 7, it's recommended to plan your migration strategy well in advance of the end-of-life date.
+Think of this as a playground: try them out, see what fits, make your own decisions.
 
-## 📚 Overview
+## 🗺️ The Specimens
 
-The repository is organized as follows:
+Each engine runs as a Spring Boot integration with working examples:
 
-- **`/src`**: Contains the main service code, including modules for integrating and testing Camunda Platform 7.
-- **`/stack`**: Infrastructure setup containing the database required to run the examples.
-- **`/bruno`**: Example requests to interact with the service using [Bruno](https://www.usebruno.com/).
-- **`/run`**: IntelliJ run configurations to easily start the service.
+- **🏛️ Camunda 7** – The classic (fully implemented)
+- **🌿 CIB7** – Community-maintained C7 fork (coming soon 🚧)
+- **🔧 Operaton** – New community-driven evolution (WIP 🚧)
 
-## 🔧 Getting Started
+For Zeebe (Camunda 8), check out [easy-zeebe](https://github.com/marcoag/easy-zeebe)
 
-Follow these steps to get the service up and running:
+## 📂 Repository Structure
 
-1. **Start the Infrastructure**
+- **`/src`**: Engine integrations and working code
+- **`/stack`**: Docker Compose files for databases and infrastructure
+- **`/bruno`**: API requests using [Bruno](https://www.usebruno.com/)
+- **`/run`**: IntelliJ run configurations
 
-   Navigate to the `/stack` directory and start the infrastructure using Docker Compose:
+## 🏛️ Camunda 7
 
-   ```bash
-   docker-compose up -d
-   ```
+*Status: ✅ Fully Implemented*
 
-2. **Run the Application**
+The original embedded engine. Battle-tested, well-documented, approaching EOL.
 
-   The project is a **Gradle**-based Spring service. While you can run it via command line, the easiest way is using **IntelliJ**:
+### Getting Started
 
-    - Open the project in IntelliJ.
-    - Go to the **`/run`** folder.
-    - Use the provided run configurations to start the application.
+**1. Start the infrastructure:**
 
-3. **Interact with the API**
+```bash
+cd stack
+docker-compose up -d
+```
 
-   Use the requests provided in the **`/bruno`** folder to interact with the service. If you don't have Bruno yet, you can download it [here](https://www.usebruno.com/).
+**2. Run the application:**
+
+- Open project in IntelliJ
+- Use run configurations from `/run` folder
+- Or: `./gradlew bootRun`
+
+**3. Try it out:**
+
+Use the Bruno collections in `/bruno` to send requests. ([Get Bruno here](https://www.usebruno.com/))
+
+## 🌿 CIB7 (Camunda 7 Community)
+
+*Status: 🚧 Coming Soon*
+
+Community-maintained fork of Camunda 7. Keeps the classic engine alive post-EOL.
+
+## 🔧 Operaton
+
+*Status: 🚧 Work In Progress*
+
+Community-driven evolution. Built on C7 foundations with active development.
+
+## 🎯 Contributing
+
+Found a bug? Have improvements? PRs welcome!
+
+This is an exploration project – help us make the safari better for everyone.
+
+---
+
+**🦁 Happy exploring! May your migrations be smooth and your processes orchestrate beautifully.** ✨

@@ -1,22 +1,20 @@
 package de.emaarco.example.application.service
 
-import de.emaarco.example.application.port.inbound.SendWelcomeMailUseCase
+import de.emaarco.example.application.port.inbound.SendConfirmationMailUseCase
 import de.emaarco.example.application.port.outbound.NewsletterSubscriptionRepository
 import de.emaarco.example.domain.SubscriptionId
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional(readOnly = true)
-class SendWelcomeMailService(
+class SendConfirmationMailService(
     private val repository: NewsletterSubscriptionRepository,
-) : SendWelcomeMailUseCase {
+) : SendConfirmationMailUseCase {
 
     private val log = KotlinLogging.logger {}
 
-    override fun sendWelcomeMail(subscriptionId: SubscriptionId) {
+    override fun sendConfirmationMail(subscriptionId: SubscriptionId) {
         val subscription = repository.find(subscriptionId)
-        log.info { "Sending welcome mail to ${subscription.email}" }
+        log.info { "Sending confirmation mail to ${subscription.email}" }
     }
 }

@@ -1,9 +1,9 @@
-package de.emaarco.example.adapter.outbound.camunda
+package de.emaarco.example.adapter.outbound.operaton
 
 import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi
 import de.emaarco.example.application.port.outbound.NewsletterSubscriptionProcess
 import de.emaarco.example.domain.SubscriptionId
-import org.camunda.bpm.engine.RuntimeService
+import org.operaton.bpm.engine.RuntimeService
 import org.springframework.stereotype.Component
 
 @Component
