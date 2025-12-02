@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.cibseven.org)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

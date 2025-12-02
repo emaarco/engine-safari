@@ -5,6 +5,7 @@ kotlin_version = "2.1.21"
 kotlin_logging_version = "3.0.5"
 camunda7_version = "7.24.0"
 operaton_version = "1.0.0"
+cib7_version = "2.0.0"
 
 [libraries]
 web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring_version" }
@@ -22,6 +23,10 @@ camunda7-rest = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-s
 # Operaton dependencies
 operaton-webapp = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-boot-starter-webapp", version.ref = "operaton_version" }
 operaton-rest = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-boot-starter-rest", version.ref = "operaton_version" }
+
+# CIB7 dependencies
+cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp", version.ref = "cib7_version" }
+cib7-rest = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-rest", version.ref = "cib7_version" }
 
 # Process Engine API dependencies
 process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.4" }
@@ -42,6 +47,7 @@ database = ["jpa", "postgres"]
 test = ["spring_test", "mockito", "mockk", "spring_mockk", "kotlin_mockito"]
 camunda7 = ["camunda7-webapp", "camunda7-rest"]
 operaton = ["operaton-webapp", "operaton-rest"]
+cib7 = ["cib7-webapp", "cib7-rest"]
 processEngineApi = ["process-engine-api", "process-engine-adapter-c7-embedded", "process-engine-worker"]
 
 [plugins]

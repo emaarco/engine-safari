@@ -1,0 +1,26 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/easy-c7
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+cibseven:
+  bpm:
+    admin-user:
+      id: admin
+      password: admin
+    webapp:
+      application-path: /cibseven
+    database:
+      type: postgres
+      schema-update: true

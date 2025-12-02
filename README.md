@@ -23,10 +23,13 @@ engines that run inside your domain-application.
 Each engine runs as a Spring Boot integration with working examples:
 
 - **🏛️ Camunda 7** – The classic (fully implemented)
-- **🌿 CIB7** – Community-maintained C7 fork (coming soon 🚧)
-- **🔧 Operaton** – New community-driven evolution (WIP 🚧)
 
-For Zeebe (Camunda 8), check out [easy-zeebe](https://github.com/marcoag/easy-zeebe)
+**Forks of camunda 7:** 
+- **🌿 CIB7** – fork maintained by [CIB Software GmbH](https://cibseven.org/)
+- **🔧 Operaton** – Community driven fork by [Operaton](https://operaton.org/)
+
+For Zeebe ([Camunda 8](https://camunda.com/de/platform/zeebe/)), 
+check out [easy-zeebe](https://github.com/emaarco/easy-zeebe)
 
 ## 📂 Repository Structure
 
