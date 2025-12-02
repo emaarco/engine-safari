@@ -21,12 +21,15 @@ engines that run inside your domain-application.
 ## 🗺️ The Specimens
 
 Each engine has its own module with a complete Spring Boot implementation.
-All modules implement the same **newsletter subscription process** – 
+All modules implement the same **newsletter subscription process** –
 simple, but demonstrates the full workflow lifecycle.
 
-- **🏛️ [Camunda 7](service/camunda-7)** – The classic
+- **🏛️ [Camunda 7](service/camunda-7)** – The classic implementation using traditional JavaDelegate pattern
+- **🏛️ [Camunda 7 with Process-Engine-API](service/camunda-7-with-process-engine-api)** – Camunda 7 with engine-neutral abstraction layer
 - **🌿 [CIB7](service/cib7)** – Fork maintained by [CIB Software GmbH](https://cibseven.org/)
 - **🔧 [Operaton](service/operaton)** – Community-driven fork by [Operaton](https://operaton.org/)
+
+### Remote Engines
 
 For **Zeebe** ([Camunda 8](https://camunda.com/de/platform/zeebe/)),
 check out [easy-zeebe](https://github.com/emaarco/easy-zeebe)
@@ -41,7 +44,6 @@ check out [easy-zeebe](https://github.com/emaarco/easy-zeebe)
 ## 🎯 Contributing
 
 Found a bug? Have improvements? PRs welcome!
-
 This is an exploration project – help us make the safari better for everyone.
 
 ---
