@@ -20,15 +20,14 @@ engines that run inside your domain-application.
 
 ## 🗺️ The Specimens
 
-Each engine runs as a Spring Boot integration with working examples:
+Each engine has its own module with a complete Spring Boot implementation.
+All modules implement the same **newsletter subscription process** – simple, but demonstrates the full workflow lifecycle.
 
-- **🏛️ Camunda 7** – The classic (fully implemented)
+- **🏛️ [Camunda 7](service/camunda-7)** – The classic
+- **🌿 [CIB7](service/cib7)** – Fork maintained by [CIB Software GmbH](https://cibseven.org/)
+- **🔧 [Operaton](service/operaton)** – Community-driven fork by [Operaton](https://operaton.org/)
 
-**Forks of camunda 7:** 
-- **🌿 CIB7** – fork maintained by [CIB Software GmbH](https://cibseven.org/)
-- **🔧 Operaton** – Community driven fork by [Operaton](https://operaton.org/)
-
-For Zeebe ([Camunda 8](https://camunda.com/de/platform/zeebe/)), 
+For **Zeebe** ([Camunda 8](https://camunda.com/de/platform/zeebe/)),
 check out [easy-zeebe](https://github.com/emaarco/easy-zeebe)
 
 ## 📂 Repository Structure

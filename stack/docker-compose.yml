@@ -3,11 +3,11 @@ services:
 
   postgres:
     image: postgres:${POSTGRES_VERSION}
-    container_name: easy-postgres
+    container_name: postgres
     ports:
       - "5432:5432"
     restart: always
     environment:
-      POSTGRES_DB: easy-c7
+      POSTGRES_DB: engine-safari
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin

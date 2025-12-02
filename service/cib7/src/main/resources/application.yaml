@@ -1,9 +1,9 @@
 server:
-  port: 8082
+  port: 8081
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/easy-c7
+    url: jdbc:postgresql://localhost:5432/engine-safari
     username: admin
     password: admin
     driver-class-name: org.postgresql.Driver
@@ -14,13 +14,21 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-cibseven:
+camunda:
   bpm:
     admin-user:
       id: admin
       password: admin
     webapp:
-      application-path: /cibseven
+      application-path: /camunda
     database:
       type: postgres
       schema-update: true
+
+cibseven:
+  webclient:
+    authentication:
+      # WARNING: This is a development/example secret key.
+      # DO NOT use this in production! Generate your own secure secret key.
+      jwtSecret: RtURHZ7SQYfLoX902wcjlvduW2qe9g0bjMUczmffjiTjzU9phbv3mK54zHMqeGK6cqgoEBTIUE6RqwvemSqbpD40qUPXVRElvDHGhn4OAEfjeEP2ANah8GJejSA08E820mForcQHBmediqg2DzIrxnDXyf2
+
