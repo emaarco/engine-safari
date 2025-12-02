@@ -32,6 +32,10 @@ tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {
     useVersioning = false
 }
 
+tasks.named("classes") {
+    dependsOn("generateBpmnModels")
+}
+
 tasks.test {
     useJUnitPlatform()
 }
