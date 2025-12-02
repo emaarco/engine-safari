@@ -21,7 +21,8 @@ engines that run inside your domain-application.
 ## 🗺️ The Specimens
 
 Each engine has its own module with a complete Spring Boot implementation.
-All modules implement the same **newsletter subscription process** – simple, but demonstrates the full workflow lifecycle.
+All modules implement the same **newsletter subscription process** – 
+simple, but demonstrates the full workflow lifecycle.
 
 - **🏛️ [Camunda 7](service/camunda-7)** – The classic
 - **🌿 [CIB7](service/cib7)** – Fork maintained by [CIB Software GmbH](https://cibseven.org/)
