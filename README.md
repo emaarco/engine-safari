@@ -41,11 +41,6 @@ check out [easy-zeebe](https://github.com/emaarco/easy-zeebe)
 - **`/bruno`**: API requests using [Bruno](https://www.usebruno.com/)
 - **`/run`**: IntelliJ run configurations
 
-## 🎯 Contributing
-
-Found a bug? Have improvements? PRs welcome!
-This is an exploration project – help us make the safari better for everyone.
-
 ---
 
 **🦁 Happy exploring! May your migrations be smooth and your processes orchestrate beautifully.** ✨
