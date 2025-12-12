@@ -6,6 +6,7 @@ kotlin_logging_version = "3.0.5"
 camunda7_version = "7.24.0"
 operaton_version = "1.0.0"
 cib7_version = "2.1.0"
+process_engine_adapter_cib7_version = "2025.12.1"
 
 [libraries]
 web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring_version" }
@@ -27,12 +28,19 @@ operaton-rest = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-boot
 # CIB7 dependencies
 cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp", version.ref = "cib7_version" }
 cib7-rest = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-rest", version.ref = "cib7_version" }
+cib7-webapp-adapter = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp", version.ref = "cib7_version" }
 
 # Process Engine API dependencies
 process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.4" }
-process-engine-worker = { module = "dev.bpm-crafters.process-engine-worker:process-engine-worker-spring-boot-starter", version = "0.7.0" }
-process-engine-adapter-c7-embedded = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-camunda-platform-c7-embedded-spring-boot-starter", version = "2025.11.1" }
-process-engine-adapter-c7-bom = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-camunda-platform-c7-bom", version = "2025.11.1" }
+process-engine-worker = { module = "dev.bpm-crafters.process-engine-worker:process-engine-worker-spring-boot-starter", version = "0.7.1-SNAPSHOT" }
+
+# C7 Process Engine Adapter
+process-engine-adapter-c7-embedded = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-camunda-platform-c7-embedded-spring-boot-starter", version = "2025.11.2-SNAPSHOT" }
+process-engine-adapter-c7-bom = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-camunda-platform-c7-bom", version = "2025.11.2-SNAPSHOT" }
+
+# CIB7 Process Engine Adapter dependencies
+process-engine-adapter-cib7-embedded = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-cib-seven-embedded-spring-boot-starter", version.ref = "process_engine_adapter_cib7_version" }
+process-engine-adapter-cib7-bom = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-cib-seven-bom", version.ref = "process_engine_adapter_cib7_version" }
 
 # testing
 spring_test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring_version" }
@@ -49,6 +57,7 @@ camunda7 = ["camunda7-webapp", "camunda7-rest"]
 operaton = ["operaton-webapp", "operaton-rest"]
 cibseven = ["cib7-webapp", "cib7-rest"]
 processEngineApi = ["process-engine-api", "process-engine-adapter-c7-embedded", "process-engine-worker"]
+processEngineApiCib7 = ["process-engine-api", "process-engine-adapter-cib7-embedded", "process-engine-worker"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin_version" }
