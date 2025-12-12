@@ -47,7 +47,7 @@ database = ["jpa", "postgres"]
 test = ["spring_test", "mockito", "mockk", "spring_mockk", "kotlin_mockito"]
 camunda7 = ["camunda7-webapp", "camunda7-rest"]
 operaton = ["operaton-webapp", "operaton-rest"]
-cib7 = ["cib7-webapp", "cib7-rest"]
+cibseven = ["cib7-webapp", "cib7-rest"]
 processEngineApi = ["process-engine-api", "process-engine-adapter-c7-embedded", "process-engine-worker"]
 
 [plugins]

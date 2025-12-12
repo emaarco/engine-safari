@@ -1,4 +1,4 @@
-package de.emaarco.example.adapter.inbound.cib7
+package de.emaarco.example.adapter.inbound.cibseven
 
 import de.emaarco.example.application.port.inbound.SendConfirmationMailUseCase
 import de.emaarco.example.domain.SubscriptionId

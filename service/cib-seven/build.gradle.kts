@@ -19,7 +19,7 @@ plugins {
 dependencies {
     implementation(libs.bundles.defaultService)
     implementation(libs.bundles.database)
-    implementation(libs.bundles.cib7)
+    implementation(libs.bundles.cibseven)
     testImplementation(libs.bundles.test)
 }
 

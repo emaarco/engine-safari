@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 @SpringBootApplication
 @EnableJpaRepositories
-class Cib7Example
+class CibSevenExample
 
 fun main(args: Array<String>) {
-    runApplication<Cib7Example>(*args)
+    runApplication<CibSevenExample>(*args)
 }

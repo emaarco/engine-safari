@@ -1,4 +1,4 @@
-package de.emaarco.example.adapter.outbound.cib7
+package de.emaarco.example.adapter.outbound.cibseven
 
 import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi
 import de.emaarco.example.application.port.outbound.NewsletterSubscriptionProcess

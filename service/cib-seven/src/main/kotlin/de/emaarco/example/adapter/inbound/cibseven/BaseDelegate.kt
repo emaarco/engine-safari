@@ -1,4 +1,4 @@
-package de.emaarco.example.adapter.inbound.cib7
+package de.emaarco.example.adapter.inbound.cibseven
 
 import org.cibseven.bpm.engine.delegate.DelegateExecution
 import org.cibseven.bpm.engine.delegate.JavaDelegate

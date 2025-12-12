@@ -1,6 +1,7 @@
-# 🌿 CIB7 - Community Fork
+# 🌿 CIB-Seven Example
 
-**CIB7** (CIB Software's Seven) - a maintained fork of Camunda 7 by [CIB Software GmbH](https://cibseven.org/).
+**CIB7** is a maintained fork of Camunda 7 by [CIB Software GmbH](https://cibseven.org/).
+This example demonstrates a newsletter subscription process using CIB7.
 
 ## About CIB Software GmbH
 

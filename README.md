@@ -26,7 +26,7 @@ simple, but demonstrates the full workflow lifecycle.
 
 - **🏛️ [Camunda 7](service/camunda-7)** – The classic implementation using traditional JavaDelegate pattern
 - **🏛️ [Camunda 7 with Process-Engine-API](service/camunda-7-with-process-engine-api)** – Camunda 7 with engine-neutral abstraction layer
-- **🌿 [CIB7](service/cib7)** – Fork maintained by [CIB Software GmbH](https://cibseven.org/)
+- **🌿 [CIB-Seven](service/cib-seven)** – Fork maintained by [CIB Software GmbH](https://cibseven.org/)
 - **🔧 [Operaton](service/operaton)** – Community-driven fork by [Operaton](https://operaton.org/)
 
 ### Remote Engines
