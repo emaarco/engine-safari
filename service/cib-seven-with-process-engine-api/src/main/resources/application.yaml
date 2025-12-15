@@ -23,7 +23,7 @@ dev:
           bpmnResourcePattern: "classpath*:/**/*.bpmn"
           dmnResourcePattern: "classpath*:/**/*.dmn"
       adapter:
-        c7embedded:
+        cib7embedded:
           enabled: true
           service-tasks:
             delivery-strategy: embedded_scheduled
@@ -35,9 +35,6 @@ dev:
 
 camunda:
   bpm:
-    generic-properties:
-      properties:
-        historyTimeToLive: P7D
     admin-user:
       id: admin
       password: admin
@@ -47,3 +44,7 @@ camunda:
       type: postgres
       schema-update: true
 
+cibseven:
+  webclient:
+    authentication:
+      jwtSecret: RtURHZ7SQYfLoX902wcjlvduW2qe9g0bjMUczmffjiTjzU9phbv3mK54zHMqeGK6cqgoEBTIUE6RqwvemSqbpD40qUPXVRElvDHGhn4OAEfjeEP2ANah8GJejSA08E820mForcQHBmediqg2DzIrxnDXyf2
