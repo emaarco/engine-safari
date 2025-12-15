@@ -17,7 +17,7 @@ dependencies {
     implementation(platform(libs.process.engine.adapter.cib7.bom))
     implementation(libs.bundles.defaultService)
     implementation(libs.bundles.database)
-    implementation(libs.cib7.webapp.adapter)
+    implementation(libs.cib7.webapp)
     implementation(libs.bundles.processEngineApiCib7)
     testImplementation(libs.bundles.test)
 }
