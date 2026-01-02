@@ -32,7 +32,7 @@ cib7-webapp-adapter = { module = "org.cibseven.bpm.springboot:cibseven-bpm-sprin
 
 # Process Engine API dependencies
 process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.4" }
-process-engine-worker = { module = "dev.bpm-crafters.process-engine-worker:process-engine-worker-spring-boot-starter", version = "0.7.1-SNAPSHOT" }
+process-engine-worker = { module = "dev.bpm-crafters.process-engine-worker:process-engine-worker-spring-boot-starter", version = "0.7.0" }
 
 # C7 Process Engine Adapter
 process-engine-adapter-c7-embedded = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-camunda-platform-c7-embedded-spring-boot-starter", version.ref = "process_engine_adapter_c7_version" }
