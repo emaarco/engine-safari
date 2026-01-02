@@ -23,7 +23,7 @@ dev:
           bpmnResourcePattern: "classpath*:/**/*.bpmn"
           dmnResourcePattern: "classpath*:/**/*.dmn"
       adapter:
-        cib7embedded:
+        cib-seven-embedded:
           enabled: true
           service-tasks:
             delivery-strategy: embedded_scheduled

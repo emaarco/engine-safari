@@ -9,36 +9,38 @@ import kotlin.Suppress
 object NewsletterSubscriptionProcessApi {
   const val PROCESS_ID: String = "newsletterSubscription"
 
+  const val PROCESS_ENGINE: String = "CAMUNDA_7"
+
   object Elements {
-    const val TIMER_EVERY_DAY: String = "Timer_EveryDay"
-
-    const val ERROR_EVENT_INVALID_MAIL: String = "ErrorEvent_InvalidMail"
-
-    const val TIMER_AFTER_3_DAYS: String = "Timer_After3Days"
+    const val ACTIVITY_ABORT_REGISTRATION: String = "Activity_AbortRegistration"
 
     const val ACTIVITY_CONFIRM_REGISTRATION: String = "Activity_ConfirmRegistration"
 
-    const val SUB_PROCESS_CONFIRMATION: String = "SubProcess_Confirmation"
+    const val ACTIVITY_SEND_CONFIRMATION_MAIL: String = "Activity_SendConfirmationMail"
 
-    const val END_EVENT_SUBSCRIPTION_CONFIRMED: String = "EndEvent_SubscriptionConfirmed"
+    const val ACTIVITY_SEND_WELCOME_MAIL: String = "Activity_SendWelcomeMail"
 
     const val END_EVENT_REGISTRATION_ABORTED: String = "EndEvent_RegistrationAborted"
+
+    const val END_EVENT_REGISTRATION_COMPLETED: String = "EndEvent_RegistrationCompleted"
 
     const val END_EVENT_REGISTRATION_NOT_POSSIBLE: String =
         "EndEvent_RegistrationNotPossible"
 
-    const val END_EVENT_REGISTRATION_COMPLETED: String = "EndEvent_RegistrationCompleted"
+    const val END_EVENT_SUBSCRIPTION_CONFIRMED: String = "EndEvent_SubscriptionConfirmed"
 
-    const val ACTIVITY_SEND_CONFIRMATION_MAIL: String = "Activity_SendConfirmationMail"
+    const val ERROR_EVENT_INVALID_MAIL: String = "ErrorEvent_InvalidMail"
 
-    const val ACTIVITY_ABORT_REGISTRATION: String = "Activity_AbortRegistration"
-
-    const val ACTIVITY_SEND_WELCOME_MAIL: String = "Activity_SendWelcomeMail"
+    const val START_EVENT_REQUEST_RECEIVED: String = "StartEvent_RequestReceived"
 
     const val START_EVENT_SUBMIT_REGISTRATION_FORM: String =
         "StartEvent_SubmitRegistrationForm"
 
-    const val START_EVENT_REQUEST_RECEIVED: String = "StartEvent_RequestReceived"
+    const val SUB_PROCESS_CONFIRMATION: String = "SubProcess_Confirmation"
+
+    const val TIMER_AFTER_3_DAYS: String = "Timer_After3Days"
+
+    const val TIMER_EVERY_DAY: String = "Timer_EveryDay"
   }
 
   object Messages {
@@ -48,17 +50,17 @@ object NewsletterSubscriptionProcessApi {
   }
 
   object TaskTypes {
-    const val ACTIVITY_SEND_CONFIRMATION_MAIL: String = "#{sendConfirmationMailDelegate}"
+    const val ABORT_REGISTRATION_DELEGATE: String = "#{abortRegistrationDelegate}"
 
-    const val ACTIVITY_ABORT_REGISTRATION: String = "#{abortRegistrationDelegate}"
+    const val SEND_CONFIRMATION_MAIL_DELEGATE: String = "#{sendConfirmationMailDelegate}"
 
-    const val ACTIVITY_SEND_WELCOME_MAIL: String = "#{sendWelcomeMailDelegate}"
+    const val SEND_WELCOME_MAIL_DELEGATE: String = "#{sendWelcomeMailDelegate}"
   }
 
   object Timers {
-    val TIMER_EVERY_DAY: BpmnTimer = BpmnTimer("Duration", "PT1M")
-
     val TIMER_AFTER_3_DAYS: BpmnTimer = BpmnTimer("Duration", "PT2M30S")
+
+    val TIMER_EVERY_DAY: BpmnTimer = BpmnTimer("Duration", "PT1M")
 
     data class BpmnTimer(
       val type: String,

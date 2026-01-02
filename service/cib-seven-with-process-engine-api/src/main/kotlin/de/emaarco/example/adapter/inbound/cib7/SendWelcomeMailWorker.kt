@@ -15,7 +15,7 @@ class SendWelcomeMailWorker(
 ) {
     private val log = KotlinLogging.logger {}
 
-    @ProcessEngineWorker(topic = TaskTypes.ACTIVITY_SEND_WELCOME_MAIL)
+    @ProcessEngineWorker(topic = TaskTypes.SEND_WELCOME_MAIL)
     fun sendWelcomeMail(@Variable subscriptionId: String): Map<String, Any> {
         log.debug { "Received task to send welcome mail for subscription: $subscriptionId" }
         useCase.sendWelcomeMail(SubscriptionId(UUID.fromString(subscriptionId)))
