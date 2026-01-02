@@ -6,6 +6,9 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    ignore:
+      - dependency-name: "org.springframework.boot*"
+        update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
     groups:
       backend-dependencies:
         patterns:
