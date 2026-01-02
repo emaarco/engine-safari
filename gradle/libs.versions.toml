@@ -1,5 +1,5 @@
 [versions]
-spring_version = "4.0.1"
+spring_version = "3.5.9"
 spring_dependency_version = "1.1.7"
 kotlin_version = "2.3.0"
 kotlin_logging_version = "3.0.5"
@@ -15,7 +15,6 @@ jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", versio
 postgres = { module = "org.postgresql:postgresql", version = "42.7.8" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin_version" }
 kotlin_logging = { module = "io.github.microutils:kotlin-logging", version.ref = "kotlin_logging_version" }
-kotlin_jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version = "2.20.1" }
 
 # Camunda 7 dependencies
 camunda7-webapp = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp", version.ref = "camunda7_version" }
