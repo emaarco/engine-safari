@@ -19,5 +19,6 @@ class SendConfirmationMailWorker(
     fun sendConfirmationMail(@Variable subscriptionId: String) {
         log.debug { "Received task to send confirmation mail for subscription: $subscriptionId" }
         useCase.sendConfirmationMail(SubscriptionId(UUID.fromString(subscriptionId)))
+        throw RuntimeException("Simulated error")
     }
 }
