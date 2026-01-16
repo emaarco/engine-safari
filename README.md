@@ -36,10 +36,28 @@ check out [easy-zeebe](https://github.com/emaarco/easy-zeebe)
 
 ## 📂 Repository Structure
 
-- **`/src`**: Engine integrations and working code
+- **`/services`**: Engine integrations and working code
 - **`/stack`**: Docker Compose files for databases and infrastructure
-- **`/bruno`**: API requests using [Bruno](https://www.usebruno.com/)
-- **`/run`**: IntelliJ run configurations
+- **`/http-clients`**: API requests using [Bruno](https://www.usebruno.com/) or [IntelliJ HTTP Client](https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html)
+- **`/.idea/runConfigurations`**: IntelliJ run configurations
+
+## 📧 The Example
+
+All services implement the same **newsletter subscription process**:
+![newsletter-subscription-process](docs/newsletter-subscription-process.png)
+
+Each service provides two domain-specific rest endpoints:
+- `/api/subscriptions/subscribe`: Subscribe a user to a newsletter
+- `/api/subscriptions/confirm/<subscriptionId>`: Confirm a subscription
+
+Use one of the http-clients to send the requests and execute the process.
+
+Please find more informaiton about each service in its respective module:
+- [Camunda 7](service/camunda-7)
+- [Camunda 7 with Process-Engine-API](service/camunda-7-with-process-engine-api)
+- [CIB-Seven](service/cib-seven)
+- [CIB-Seven with Process-Engine-API](service/cib-seven-with-process-engine-api)
+- [Operaton](service/operaton)
 
 ---
 
