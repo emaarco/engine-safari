@@ -1,0 +1,14 @@
+### Subscribe to newsletter
+POST http://localhost:8081/api/subscriptions/subscribe
+Content-Type: application/json
+
+{
+  "email": "test@mail.com",
+  "name": "John Doe",
+  "newsletterId": "163aef88-cd50-4174-8db8-5d92432cf6c4"
+}
+
+> {% client.global.set("subscriptionId", response.body.subscriptionId); %}
+
+### Confirm subscription
+POST http://localhost:8081/api/subscriptions/confirm/{{subscriptionId}}

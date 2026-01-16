@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="cib-seven-Example" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="Camunda7ExampleProcessEngineApi" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-    <module name="engine-safari.service.cib-seven.main" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="de.emaarco.example.CibSevenExample" />
+    <module name="engine-safari.service.camunda-7-with-process-engine-api.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="de.emaarco.example.EasyProcessEngineApi" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />
       <option name="IS_SUBST" value="false" />
