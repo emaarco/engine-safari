@@ -20,6 +20,7 @@ dependencies {
     implementation(libs.camunda7.webapp)
     implementation(libs.bundles.processEngineApi)
     testImplementation(libs.bundles.test)
+    testImplementation(project(":common:common-architecture-test"))
 }
 
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {

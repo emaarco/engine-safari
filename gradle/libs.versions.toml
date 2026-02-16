@@ -8,6 +8,7 @@ operaton_version = "1.0.2"
 cib7_version = "2.1.0"
 process_engine_adapter_cib7_version = "2025.12.1"
 process_engine_adapter_c7_version = "2025.11.1"
+konsist_version = "0.17.3"
 
 [libraries]
 web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring_version" }
@@ -47,11 +48,13 @@ mockito = { module = "org.mockito:mockito-inline", version = "5.2.0" }
 kotlin_mockito = { module = "org.mockito.kotlin:mockito-kotlin", version = "6.1.0" }
 mockk = { module = "io.mockk:mockk", version = "1.14.7" }
 spring_mockk = { module = "com.ninja-squad:springmockk", version = "5.0.1" }
+konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist_version" }
 
 [bundles]
 defaultService = ["kotlin-reflect", "kotlin_logging", "devtools", "web"]
 database = ["jpa", "postgres"]
 test = ["spring_test", "mockito", "mockk", "spring_mockk", "kotlin_mockito"]
+konsist = ["konsist"]
 camunda7 = ["camunda7-webapp", "camunda7-rest"]
 operaton = ["operaton-webapp", "operaton-rest"]
 cibseven = ["cib7-webapp", "cib7-rest"]
