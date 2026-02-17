@@ -80,4 +80,8 @@ object NewsletterSubscriptionProcessApi {
   object Signals {
     const val SIGNAL_REGISTRATION_NOT_POSSIBLE: String = "Signal_RegistrationNotPossible"
   }
+
+  object Variables {
+    const val SUBSCRIPTION_ID: String = "subscriptionId"
+  }
 }

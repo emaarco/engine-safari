@@ -21,6 +21,7 @@ dependencies {
     implementation(libs.bundles.database)
     implementation(libs.bundles.cibseven)
     testImplementation(libs.bundles.test)
+    testImplementation(project(":common:common-architecture-test"))
 }
 
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {

@@ -20,6 +20,7 @@ dependencies {
     implementation(libs.cib7.webapp)
     implementation(libs.bundles.processEngineApiCib7)
     testImplementation(libs.bundles.test)
+    testImplementation(project(":common:common-architecture-test"))
 }
 
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {
