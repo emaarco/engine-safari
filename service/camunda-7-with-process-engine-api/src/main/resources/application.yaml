@@ -35,9 +35,6 @@ dev:
 
 camunda:
   bpm:
-    generic-properties:
-      properties:
-        historyTimeToLive: P7D
     admin-user:
       id: admin
       password: admin

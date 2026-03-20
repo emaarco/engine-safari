@@ -30,3 +30,23 @@ If you're planning to migrate from Camunda 7 to another engine (Camunda 8, Opera
 - Only configuration changes
 - No rewriting of business logic
 - Cleaner architecture with better separation of concerns
+
+## History Cleanup
+
+Automatic history cleanup is configured in `HistoryCleanupConfiguration.kt`:
+
+| Setting | Value | Description |
+|---|---|---|
+| `historyCleanupStrategy` | `removalTimeBased` | Removes data based on removal time (end time + TTL) |
+| `historyCleanupBatchWindowStartTime` | `22:00` | Cleanup window opens at 10 PM |
+| `historyCleanupBatchWindowEndTime` | `06:00` | Cleanup window closes at 6 AM |
+| `historyCleanupBatchSize` | `500` | Instances removed per transaction |
+| `historyCleanupDegreeOfParallelism` | `1` | Parallel cleanup threads |
+
+The `historyTimeToLive` is defined per process in `newsletter.bpmn` (`P5D`).
+
+### Manual Trigger
+
+```
+POST http://localhost:8081/camunda/api/engine/default/history/cleanup
+```
