@@ -1,6 +1,6 @@
 package de.emaarco.example.adapter.inbound.cib7
 
-import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.TaskTypes
+import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.ServiceTasks
 import de.emaarco.example.application.port.inbound.SendWelcomeMailUseCase
 import de.emaarco.example.domain.SubscriptionId
 import dev.bpmcrafters.processengine.worker.ProcessEngineWorker
@@ -15,7 +15,7 @@ class SendWelcomeMailWorker(
 ) {
     private val log = KotlinLogging.logger {}
 
-    @ProcessEngineWorker(topic = TaskTypes.SEND_WELCOME_MAIL)
+    @ProcessEngineWorker(topic = ServiceTasks.SEND_WELCOME_MAIL)
     fun sendWelcomeMail(@Variable subscriptionId: String): Map<String, Any> {
         log.debug { "Received task to send welcome mail for subscription: $subscriptionId" }
         useCase.sendWelcomeMail(SubscriptionId(UUID.fromString(subscriptionId)))

@@ -1,6 +1,6 @@
 package de.emaarco.example.adapter.inbound.camunda
 
-import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.TaskTypes
+import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.ServiceTasks
 import de.emaarco.example.application.port.inbound.AbortSubscriptionUseCase
 import de.emaarco.example.domain.SubscriptionId
 import dev.bpmcrafters.processengine.worker.ProcessEngineWorker
@@ -15,7 +15,7 @@ class AbortRegistrationWorker(
 ) {
     private val log = KotlinLogging.logger {}
 
-    @ProcessEngineWorker(topic = TaskTypes.ABORT_REGISTRATION)
+    @ProcessEngineWorker(topic = ServiceTasks.ABORT_REGISTRATION)
     fun abortRegistration(@Variable subscriptionId: String): Map<String, Any> {
         log.debug { "Received task to abort registration for subscription: $subscriptionId" }
         useCase.abort(SubscriptionId(UUID.fromString(subscriptionId)))

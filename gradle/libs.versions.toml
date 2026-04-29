@@ -32,6 +32,7 @@ cib7-rest = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-sta
 
 # Process Engine API dependencies
 process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.5" }
+bpmn-to-code-runtime = { module = "io.github.emaarco:bpmn-to-code-runtime", version = "2.0.3" }
 process-engine-worker = { module = "dev.bpm-crafters.process-engine-worker:process-engine-worker-spring-boot-starter", version = "0.8.0" }
 
 # C7 Process Engine Adapter
@@ -68,4 +69,4 @@ kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin_ver
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin_version" }
 springframework = { id = "org.springframework.boot", version.ref = "spring_version" }
 spring-dependency = { id = "io.spring.dependency-management", version.ref = "spring_dependency_version" }
-bpmnToCode = { id = "io.github.emaarco.bpmn-to-code-gradle", version = "1.0.0" }
+bpmnToCode = { id = "io.github.emaarco.bpmn-to-code-gradle", version = "2.0.3" }

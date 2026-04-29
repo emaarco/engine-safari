@@ -21,9 +21,9 @@ class NewsletterSubscriptionProcessAdapter(
     override fun submitForm(id: SubscriptionId) {
         startProcessApi.startProcess(
             cmd = StartProcessByMessageCmd(
-                messageName = Messages.MESSAGE_FORM_SUBMITTED,
+                messageName = Messages.MESSAGE_FORM_SUBMITTED.value,
                 payload = mapOf(
-                    Variables.SUBSCRIPTION_ID to id.value.toString(),
+                    Variables.ActivitySendConfirmationMail.SUBSCRIPTION_ID.value to id.value.toString(),
                     CommonRestrictions.CORRELATION_KEY to id.value.toString()
                 )
             )
@@ -35,8 +35,8 @@ class NewsletterSubscriptionProcessAdapter(
     ) {
         correlationApi.correlateMessage(
             cmd = CorrelateMessageCmd(
-                messageName = Messages.MESSAGE_SUBSCRIPTION_CONFIRMED,
-                payload = mapOf(Variables.SUBSCRIPTION_ID to id.value.toString()),
+                messageName = Messages.MESSAGE_SUBSCRIPTION_CONFIRMED.value,
+                payload = mapOf(Variables.ActivityConfirmRegistration.SUBSCRIPTION_ID.value to id.value.toString()),
                 correlation = Correlation.withKey(id.value.toString()),
                 restrictions = messageEventRestrictions()
             )

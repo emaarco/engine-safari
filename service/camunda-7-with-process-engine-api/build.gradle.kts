@@ -19,6 +19,7 @@ dependencies {
     implementation(libs.bundles.database)
     implementation(libs.camunda7.webapp)
     implementation(libs.bundles.processEngineApi)
+    implementation(libs.bpmn.to.code.runtime)
     testImplementation(libs.bundles.test)
     testImplementation(project(":common:common-architecture-test"))
 }
@@ -30,7 +31,6 @@ tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {
     packagePath = "de.emaarco.example.adapter.process"
     outputLanguage = OutputLanguage.KOTLIN
     processEngine = ProcessEngine.CAMUNDA_7
-    useVersioning = false
 }
 
 tasks.named("classes") {
