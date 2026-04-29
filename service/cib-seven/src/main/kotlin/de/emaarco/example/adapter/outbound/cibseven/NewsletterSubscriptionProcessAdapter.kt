@@ -13,17 +13,16 @@ class NewsletterSubscriptionProcessAdapter(
 ) : NewsletterSubscriptionProcess {
 
     override fun submitForm(id: SubscriptionId) {
-        val variables = mapOf("subscriptionId" to id.value.toString())
+        val variables = mapOf(Variables.ActivitySendConfirmationMail.SUBSCRIPTION_ID.value to id.value.toString())
         runtimeService.startProcessInstanceByMessage(
-            Messages.MESSAGE_FORM_SUBMITTED,
+            Messages.MESSAGE_FORM_SUBMITTED.value,
             variables
         )
     }
 
     override fun confirmSubscription(id: SubscriptionId) {
-        val message = Messages.MESSAGE_SUBSCRIPTION_CONFIRMED
-        runtimeService.createMessageCorrelation(message)
-            .processInstanceVariableEquals(Variables.SUBSCRIPTION_ID, id.value.toString())
+        runtimeService.createMessageCorrelation(Messages.MESSAGE_SUBSCRIPTION_CONFIRMED.value)
+            .processInstanceVariableEquals(Variables.ActivityConfirmRegistration.SUBSCRIPTION_ID.value, id.value.toString())
             .correlate()
     }
 }
