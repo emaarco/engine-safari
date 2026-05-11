@@ -21,6 +21,7 @@ dependencies {
     implementation(libs.bundles.processEngineApi)
     implementation(libs.bpmn.to.code.runtime)
     testImplementation(libs.bundles.test)
+    testImplementation(libs.bundles.camunda7ProcessTest)
     testImplementation(project(":common:common-architecture-test"))
 }
 

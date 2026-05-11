@@ -50,6 +50,16 @@ kotlin_mockito = { module = "org.mockito.kotlin:mockito-kotlin", version = "6.3.
 mockk = { module = "io.mockk:mockk", version = "1.14.9" }
 spring_mockk = { module = "com.ninja-squad:springmockk", version = "5.0.1" }
 konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist_version" }
+h2 = { module = "com.h2database:h2", version = "2.3.232" }
+
+# Process test - Camunda 7
+camunda7-bpm-assert = { module = "org.camunda.bpm:camunda-bpm-assert", version.ref = "camunda7_version" }
+
+# Process test - Operaton
+operaton-bpm-assert = { module = "org.operaton.bpm:operaton-bpm-assert", version.ref = "operaton_version" }
+
+# Process test - CIB Seven
+cib7-bpm-assert = { module = "org.cibseven.bpm:cibseven-bpm-assert", version.ref = "cib7_version" }
 
 [bundles]
 defaultService = ["kotlin-reflect", "kotlin_logging", "devtools", "web"]
@@ -61,6 +71,9 @@ operaton = ["operaton-webapp", "operaton-rest"]
 cibseven = ["cib7-webapp", "cib7-rest"]
 processEngineApi = ["process-engine-api", "process-engine-adapter-c7-embedded", "process-engine-worker"]
 processEngineApiCib7 = ["process-engine-api", "process-engine-adapter-cib7-embedded", "process-engine-worker"]
+camunda7ProcessTest = ["camunda7-bpm-assert", "h2"]
+operatonProcessTest = ["operaton-bpm-assert", "h2"]
+cib7ProcessTest = ["cib7-bpm-assert", "h2"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin_version" }
