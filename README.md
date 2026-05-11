@@ -24,7 +24,7 @@ Each engine has its own module with a complete Spring Boot implementation.
 All modules implement the same **newsletter subscription process** –
 simple, but demonstrates the full workflow lifecycle.
 
-![Newsletter Subscription Process](docs/newsletter-process.svg)
+![Newsletter Subscription Process](docs/newsletter-process.png)
 
 The model exercises message start events, a sub-process with an inner receive task,
 a non-interrupting reminder timer, an interrupting abort timer, and a boundary error.
