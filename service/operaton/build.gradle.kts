@@ -22,7 +22,22 @@ dependencies {
     implementation(libs.bundles.operaton)
     implementation(libs.bpmn.to.code.runtime)
     testImplementation(libs.bundles.test)
+    testImplementation(libs.bundles.operatonProcessTest)
+    // No JGiven library exists for Operaton — holunda's camunda-bpm-jgiven is hard-bound
+    // to org.camunda.bpm.* types, which Operaton renames to org.operaton.bpm.*.
+    // Operaton therefore ships only the `basic` Spring Boot integration test.
     testImplementation(project(":common:common-architecture-test"))
+}
+
+configurations.testRuntimeClasspath {
+    exclude(group = "org.operaton.bpm.springboot", module = "operaton-bpm-spring-boot-starter-rest")
+    exclude(group = "org.operaton.bpm.webapp", module = "operaton-webapp")
+    exclude(group = "org.springframework.boot", module = "spring-boot-starter-webmvc")
+    exclude(group = "org.springframework.boot", module = "spring-boot-webmvc-autoconfigure")
+    exclude(group = "org.springframework.boot", module = "spring-boot-jersey-autoconfigure")
+    exclude(group = "org.springframework.boot", module = "spring-boot-health")
+    exclude(group = "org.springframework.boot", module = "spring-boot-health-autoconfigure")
+    exclude(group = "org.springframework.boot", module = "spring-boot-jackson2")
 }
 
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {

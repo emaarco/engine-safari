@@ -22,7 +22,20 @@ dependencies {
     implementation(libs.bundles.cibseven)
     implementation(libs.bpmn.to.code.runtime)
     testImplementation(libs.bundles.test)
+    testImplementation(libs.bundles.cib7ProcessTest)
+    testImplementation(libs.bundles.cib7JGiven)
     testImplementation(project(":common:common-architecture-test"))
+}
+
+configurations.testRuntimeClasspath {
+    exclude(group = "org.cibseven.bpm.springboot", module = "cibseven-bpm-spring-boot-starter-rest")
+    exclude(group = "org.cibseven.bpm.webapp", module = "cibseven-webapp")
+    exclude(group = "org.springframework.boot", module = "spring-boot-starter-webmvc")
+    exclude(group = "org.springframework.boot", module = "spring-boot-webmvc-autoconfigure")
+    exclude(group = "org.springframework.boot", module = "spring-boot-jersey-autoconfigure")
+    exclude(group = "org.springframework.boot", module = "spring-boot-health")
+    exclude(group = "org.springframework.boot", module = "spring-boot-health-autoconfigure")
+    exclude(group = "org.springframework.boot", module = "spring-boot-jackson2")
 }
 
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {
@@ -40,6 +53,7 @@ tasks.named("classes") {
 
 tasks.test {
     useJUnitPlatform()
+    forkEvery = 1
 }
 
 tasks.withType<BootJar> {

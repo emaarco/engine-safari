@@ -9,6 +9,7 @@
 /.idea
 .gradle
 **/build/
+**/jgiven-reports/
 .DS_Store
 .kotlin/
 .vscode
