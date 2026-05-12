@@ -22,6 +22,7 @@ dependencies {
     implementation(libs.bpmn.to.code.runtime)
     testImplementation(libs.bundles.test)
     testImplementation(libs.bundles.camunda7ProcessTest)
+    testImplementation(libs.bundles.camunda7JGiven)
     testImplementation(project(":common:common-architecture-test"))
 }
 
@@ -40,6 +41,9 @@ tasks.named("classes") {
 
 tasks.test {
     useJUnitPlatform()
+    // Spring-Boot basic test and JGiven test each set up their own Camunda engine
+    // and pollute the static ProcessEngines registry. Fork a new JVM per test class.
+    forkEvery = 1
 }
 
 tasks.withType<BootJar> {
