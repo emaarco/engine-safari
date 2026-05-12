@@ -9,6 +9,9 @@ cib7_version = "2.1.0"
 process_engine_adapter_cib7_version = "2026.02.1"
 process_engine_adapter_c7_version = "2026.04.2"
 konsist_version = "0.17.3"
+camunda7_jgiven_version = "2025.10.1"
+cib7_jgiven_version = "1.0.0"
+jgiven_kotlin_version = "2.0.2.1"
 
 [libraries]
 web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring_version" }
@@ -61,6 +64,14 @@ operaton-bpm-assert = { module = "org.operaton.bpm:operaton-bpm-assert", version
 # Process test - CIB Seven
 cib7-bpm-assert = { module = "org.cibseven.bpm:cibseven-bpm-assert", version.ref = "cib7_version" }
 
+# JGiven
+camunda7-bpm-jgiven = { module = "io.holunda.testing:camunda-bpm-jgiven", version.ref = "camunda7_jgiven_version" }
+cib7-bpm-jgiven = { module = "org.cibseven.community:cibseven-bpm-jgiven", version.ref = "cib7_jgiven_version" }
+jgiven-kotlin = { module = "io.toolisticon.testing:jgiven-kotlin", version.ref = "jgiven_kotlin_version" }
+jgiven-junit5 = { module = "com.tngtech.jgiven:jgiven-junit5", version = "2.0.3" }
+camunda7-bpm-junit5 = { module = "org.camunda.bpm:camunda-bpm-junit5", version.ref = "camunda7_version" }
+cib7-bpm-junit5 = { module = "org.cibseven.bpm:cibseven-bpm-junit5", version.ref = "cib7_version" }
+
 [bundles]
 defaultService = ["kotlin-reflect", "kotlin_logging", "devtools", "web"]
 database = ["jpa", "postgres"]
@@ -74,6 +85,8 @@ processEngineApiCib7 = ["process-engine-api", "process-engine-adapter-cib7-embed
 camunda7ProcessTest = ["camunda7-bpm-assert", "h2"]
 operatonProcessTest = ["operaton-bpm-assert", "h2"]
 cib7ProcessTest = ["cib7-bpm-assert", "h2"]
+camunda7JGiven = ["camunda7-bpm-jgiven", "camunda7-bpm-junit5", "jgiven-kotlin", "jgiven-junit5"]
+cib7JGiven = ["cib7-bpm-jgiven", "cib7-bpm-junit5", "jgiven-kotlin", "jgiven-junit5"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin_version" }

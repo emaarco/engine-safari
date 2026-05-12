@@ -1,4 +1,4 @@
-package de.emaarco.example.process
+package de.emaarco.example.process.basic
 
 import com.ninjasquad.springmockk.MockkBean
 import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.Elements
