@@ -24,6 +24,14 @@ Each engine has its own module with a complete Spring Boot implementation.
 All modules implement the same **newsletter subscription process** –
 simple, but demonstrates the full workflow lifecycle.
 
+![Newsletter Subscription Process](docs/newsletter-process.png)
+
+The model exercises message start events, a sub-process with an inner receive task,
+a non-interrupting reminder timer, an interrupting abort timer, and a boundary error.
+Each module ships a process-test suite (`NewsletterSubscriptionProcessTest`) that
+walks all four variants — happy path, abort after 3 days, invalid mail error,
+reminder resend — using the engine's official `bpm-assert` library.
+
 - **🏛️ [Camunda 7](service/camunda-7)** – The classic implementation using traditional JavaDelegate pattern
 - **🏛️ [Camunda 7 with Process-Engine-API](service/camunda-7-with-process-engine-api)** – Camunda 7 with engine-neutral abstraction layer
 - **🌿 [CIB-Seven](service/cib-seven)** – Fork maintained by [CIB Software GmbH](https://cibseven.org/)

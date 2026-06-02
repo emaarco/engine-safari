@@ -9,6 +9,9 @@ cib7_version = "2.2.0"
 process_engine_adapter_cib7_version = "2026.02.1"
 process_engine_adapter_c7_version = "2026.04.2"
 konsist_version = "0.17.3"
+camunda7_jgiven_version = "2025.10.1"
+cib7_jgiven_version = "1.0.0"
+jgiven_kotlin_version = "2.0.2.1"
 
 [libraries]
 web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring_version" }
@@ -20,15 +23,12 @@ kotlin_logging = { module = "io.github.microutils:kotlin-logging", version.ref =
 
 # Camunda 7 dependencies
 camunda7-webapp = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp", version.ref = "camunda7_version" }
-camunda7-rest = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest", version.ref = "camunda7_version" }
 
 # Operaton dependencies
 operaton-webapp = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-boot-starter-webapp", version.ref = "operaton_version" }
-operaton-rest = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-boot-starter-rest", version.ref = "operaton_version" }
 
 # CIB7 dependencies
 cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp", version.ref = "cib7_version" }
-cib7-rest = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-rest", version.ref = "cib7_version" }
 
 # Process Engine API dependencies
 process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.5" }
@@ -50,17 +50,40 @@ kotlin_mockito = { module = "org.mockito.kotlin:mockito-kotlin", version = "6.3.
 mockk = { module = "io.mockk:mockk", version = "1.14.11" }
 spring_mockk = { module = "com.ninja-squad:springmockk", version = "5.0.1" }
 konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist_version" }
+h2 = { module = "com.h2database:h2", version = "2.3.232" }
+
+# Process test - Camunda 7
+camunda7-bpm-assert = { module = "org.camunda.bpm:camunda-bpm-assert", version.ref = "camunda7_version" }
+
+# Process test - Operaton
+operaton-bpm-assert = { module = "org.operaton.bpm:operaton-bpm-assert", version.ref = "operaton_version" }
+
+# Process test - CIB Seven
+cib7-bpm-assert = { module = "org.cibseven.bpm:cibseven-bpm-assert", version.ref = "cib7_version" }
+
+# JGiven
+camunda7-bpm-jgiven = { module = "io.holunda.testing:camunda-bpm-jgiven", version.ref = "camunda7_jgiven_version" }
+cib7-bpm-jgiven = { module = "org.cibseven.community:cibseven-bpm-jgiven", version.ref = "cib7_jgiven_version" }
+jgiven-kotlin = { module = "io.toolisticon.testing:jgiven-kotlin", version.ref = "jgiven_kotlin_version" }
+jgiven-junit5 = { module = "com.tngtech.jgiven:jgiven-junit5", version = "2.0.3" }
+camunda7-bpm-junit5 = { module = "org.camunda.bpm:camunda-bpm-junit5", version.ref = "camunda7_version" }
+cib7-bpm-junit5 = { module = "org.cibseven.bpm:cibseven-bpm-junit5", version.ref = "cib7_version" }
 
 [bundles]
 defaultService = ["kotlin-reflect", "kotlin_logging", "devtools", "web"]
 database = ["jpa", "postgres"]
 test = ["spring_test", "mockito", "mockk", "spring_mockk", "kotlin_mockito"]
 konsist = ["konsist"]
-camunda7 = ["camunda7-webapp", "camunda7-rest"]
-operaton = ["operaton-webapp", "operaton-rest"]
-cibseven = ["cib7-webapp", "cib7-rest"]
+camunda7 = ["camunda7-webapp"]
+operaton = ["operaton-webapp"]
+cibseven = ["cib7-webapp"]
 processEngineApi = ["process-engine-api", "process-engine-adapter-c7-embedded", "process-engine-worker"]
 processEngineApiCib7 = ["process-engine-api", "process-engine-adapter-cib7-embedded", "process-engine-worker"]
+camunda7ProcessTest = ["camunda7-bpm-assert", "h2"]
+operatonProcessTest = ["operaton-bpm-assert", "h2"]
+cib7ProcessTest = ["cib7-bpm-assert", "h2"]
+camunda7JGiven = ["camunda7-bpm-jgiven", "camunda7-bpm-junit5", "jgiven-kotlin", "jgiven-junit5"]
+cib7JGiven = ["cib7-bpm-jgiven", "cib7-bpm-junit5", "jgiven-kotlin", "jgiven-junit5"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin_version" }

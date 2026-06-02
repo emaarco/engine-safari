@@ -22,6 +22,8 @@ dependencies {
     implementation(libs.bundles.cibseven)
     implementation(libs.bpmn.to.code.runtime)
     testImplementation(libs.bundles.test)
+    testImplementation(libs.bundles.cib7ProcessTest)
+    testImplementation(libs.bundles.cib7JGiven)
     testImplementation(project(":common:common-architecture-test"))
 }
 
@@ -40,6 +42,7 @@ tasks.named("classes") {
 
 tasks.test {
     useJUnitPlatform()
+    forkEvery = 1
 }
 
 tasks.withType<BootJar> {
