@@ -33,7 +33,8 @@ camunda7-webapp = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot
 operaton-webapp = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-boot-starter-webapp", version.ref = "operaton_version" }
 
 # CIB7 dependencies
-cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp", version.ref = "cib7_version" }
+cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp-4", version.ref = "cib7_version" }
+cib7-webappDepr = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp", version.ref = "cib7_version" }
 
 # Process Engine API dependencies
 process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.5" }
