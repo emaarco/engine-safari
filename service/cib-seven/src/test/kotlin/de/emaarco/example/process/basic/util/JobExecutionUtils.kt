@@ -3,13 +3,10 @@ package de.emaarco.example.process.basic.util
 import org.cibseven.bpm.engine.ProcessEngine
 
 /**
- * Drives all pending async-continuation jobs synchronously until the process reaches its next wait state
- * (user/receive task, timer, or end).
- *
- * This is necessary because the job executor is disabled in tests for determinism
- *
- * `camunda:asyncAfter` otherwise parks message jobs that nobody would ever execute,
- * leaving the process stuck right after the previous step.
+ * Drives all pending async-continuation jobs synchronously until the process reaches its next
+ * wait state (user/receive task, timer, or end). This is necessary because the job executor is
+ * disabled in tests for determinism — `camunda:asyncAfter` otherwise parks message jobs that
+ * nobody would ever execute, leaving the process stuck right after the previous step.
  */
 fun ProcessEngine.continueToNextWaitState(maxIterations: Int = 50) {
     repeat(maxIterations) {
