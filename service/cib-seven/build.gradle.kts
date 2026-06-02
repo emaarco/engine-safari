@@ -12,7 +12,6 @@ plugins {
     alias(libs.plugins.kotlin.jpa)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.springframework)
-    alias(libs.plugins.spring.dependency)
     alias(libs.plugins.bpmnToCode)
 }
 
@@ -25,6 +24,13 @@ dependencies {
     testImplementation(libs.bundles.cib7ProcessTest)
     testImplementation(libs.bundles.cib7JGiven)
     testImplementation(project(":common:common-architecture-test"))
+}
+
+configurations.all {
+    resolutionStrategy {
+        force("org.springframework.data:spring-data-envers:4.0.5")
+        force("org.hibernate.orm:hibernate-envers:7.2.12.Final")
+    }
 }
 
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {

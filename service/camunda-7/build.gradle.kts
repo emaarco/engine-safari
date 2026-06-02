@@ -11,17 +11,17 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.jpa)
     alias(libs.plugins.kotlin.spring)
-    alias(libs.plugins.springframework)
+    alias(libs.plugins.springframeworkDepr)
     alias(libs.plugins.spring.dependency)
     alias(libs.plugins.bpmnToCode)
 }
 
 dependencies {
-    implementation(libs.bundles.defaultService)
-    implementation(libs.bundles.database)
+    implementation(libs.bundles.defaultServiceDepr)
+    implementation(libs.bundles.databaseDepr)
     implementation(libs.bundles.camunda7)
     implementation(libs.bpmn.to.code.runtime)
-    testImplementation(libs.bundles.test)
+    testImplementation(libs.bundles.testDepr)
     testImplementation(libs.bundles.camunda7ProcessTest)
     testImplementation(libs.bundles.camunda7JGiven)
     testImplementation(project(":common:common-architecture-test"))
