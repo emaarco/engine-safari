@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.kotlin.jpa)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.springframework)
+    alias(libs.plugins.spring.dependency)
     alias(libs.plugins.bpmnToCode)
 }
 
