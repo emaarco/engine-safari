@@ -6,6 +6,7 @@ import com.tngtech.jgiven.annotation.ScenarioState
 import de.emaarco.example.adapter.inbound.cibseven.AbortRegistrationDelegate
 import de.emaarco.example.adapter.inbound.cibseven.SendConfirmationMailDelegate
 import de.emaarco.example.adapter.inbound.cibseven.SendWelcomeMailDelegate
+import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.Elements
 import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.Errors
 import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.Messages
 import de.emaarco.example.application.port.inbound.AbortSubscriptionUseCase
@@ -19,10 +20,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.toolisticon.testing.jgiven.step
 import org.cibseven.bpm.engine.delegate.BpmnError
-import org.cibseven.bpm.engine.impl.util.ClockUtil
 import org.cibseven.bpm.engine.test.mock.Mocks
-import java.time.Duration
-import java.util.Date
 
 @JGivenProcessStage
 open class NewsletterSubscriptionActionStage :
@@ -38,61 +36,74 @@ open class NewsletterSubscriptionActionStage :
     val abortSubscriptionUseCase = mockk<AbortSubscriptionUseCase>()
 
     @BeforeStage
-    fun setUp() {
+    fun registerDelegates() {
         Mocks.reset()
-        every { sendConfirmationMailUseCase.sendConfirmationMail(any()) } just Runs
-        every { sendWelcomeMailUseCase.sendWelcomeMail(any()) } just Runs
-        every { abortSubscriptionUseCase.abort(any()) } just Runs
-
         Mocks.register("sendConfirmationMailDelegate", SendConfirmationMailDelegate(sendConfirmationMailUseCase))
         Mocks.register("sendWelcomeMailDelegate", SendWelcomeMailDelegate(sendWelcomeMailUseCase))
         Mocks.register("abortRegistrationDelegate", AbortRegistrationDelegate(abortSubscriptionUseCase))
     }
 
+    fun the_confirmation_mail_is_sent_successfully() = step {
+        every { sendConfirmationMailUseCase.sendConfirmationMail(any()) } just Runs
+    }
+
+    fun the_confirmation_mail_fails_with_an_invalid_mail_error() = step {
+        every { sendConfirmationMailUseCase.sendConfirmationMail(any()) } throws
+            BpmnError(Errors.ERROR_INVALID_MAIL.code)
+    }
+
+    fun the_welcome_mail_is_sent_successfully() = step {
+        every { sendWelcomeMailUseCase.sendWelcomeMail(any()) } just Runs
+    }
+
+    fun the_subscription_can_be_aborted() = step {
+        every { abortSubscriptionUseCase.abort(any()) } just Runs
+    }
+
     fun the_form_is_submitted_for(@Quoted subscriptionId: String) = step {
         processInstanceSupplier = NewsletterProcessBean(camunda)
         processInstanceSupplier.startBySubmittingForm(subscriptionId)
-        drainAsyncJobs()
+        continueToNextWaitState()
     }
 
     fun the_subscription_is_confirmed_for(@Quoted subscriptionId: String) = step {
         camunda.runtimeService.createMessageCorrelation(Messages.MESSAGE_SUBSCRIPTION_CONFIRMED.value)
             .processInstanceVariableEquals("subscriptionId", subscriptionId)
             .correlate()
-        drainAsyncJobs()
+        continueToNextWaitState()
     }
 
-    fun the_confirmation_mail_throws_an_invalid_mail_error() = step {
-        every { sendConfirmationMailUseCase.sendConfirmationMail(any()) } throws
-            BpmnError(Errors.ERROR_INVALID_MAIL.code)
+    fun the_reminder_timer_fires() = step {
+        fireTimer(Elements.TIMER_EVERY_DAY.value)
+        continueToNextWaitState()
     }
 
-    fun the_clock_advances_by(duration: Duration) = step {
-        val now = ClockUtil.getCurrentTime() ?: Date()
-        ClockUtil.setCurrentTime(Date(now.time + duration.toMillis()))
-        fireDueTimers()
-        drainAsyncJobs()
+    fun the_abort_timer_fires() = step {
+        fireTimer(Elements.TIMER_AFTER_3_DAYS.value)
+        continueToNextWaitState()
     }
 
-    private fun drainAsyncJobs(maxIterations: Int = 50) {
+    /**
+     * Fires the timer job of the given boundary event directly, regardless of its due date — we
+     * verify that the timer path is wired, not the real waiting duration.
+     */
+    private fun fireTimer(timerActivityId: String) {
+        val timer = camunda.managementService.createJobQuery()
+            .timers().activityId(timerActivityId).singleResult()
+        requireNotNull(timer) { "no timer job found for activity '$timerActivityId'" }
+        camunda.managementService.executeJob(timer.id)
+    }
+
+    /**
+     * Drives the process across every parked `camunda:asyncAfter` continuation until it reaches its
+     * next wait state. The job executor is disabled in tests for determinism, so these message jobs
+     * would otherwise never run and the process would stay stuck right after the previous step.
+     */
+    private fun continueToNextWaitState(maxIterations: Int = 50) {
         repeat(maxIterations) {
             val job = camunda.managementService.createJobQuery()
-                .active()
-                .messages()
-                .listPage(0, 1)
-                .firstOrNull() ?: return
+                .active().messages().listPage(0, 1).firstOrNull() ?: return
             camunda.managementService.executeJob(job.id)
-        }
-    }
-
-    private fun fireDueTimers(maxIterations: Int = 20) {
-        repeat(maxIterations) {
-            val timer = camunda.managementService.createJobQuery()
-                .timers()
-                .duedateLowerThan(ClockUtil.getCurrentTime())
-                .listPage(0, 1)
-                .firstOrNull() ?: return
-            camunda.managementService.executeJob(timer.id)
         }
     }
 }

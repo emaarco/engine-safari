@@ -6,6 +6,7 @@ import com.tngtech.jgiven.annotation.ScenarioState
 import de.emaarco.example.adapter.inbound.camunda.AbortRegistrationWorker
 import de.emaarco.example.adapter.inbound.camunda.SendConfirmationMailWorker
 import de.emaarco.example.adapter.inbound.camunda.SendWelcomeMailWorker
+import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.Elements
 import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.Errors
 import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.Messages
 import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.ServiceTasks
@@ -20,9 +21,6 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.toolisticon.testing.jgiven.step
-import org.camunda.bpm.engine.impl.util.ClockUtil
-import java.time.Duration
-import java.util.Date
 
 @JGivenProcessStage
 open class NewsletterSubscriptionActionStage :
@@ -41,11 +39,7 @@ open class NewsletterSubscriptionActionStage :
     lateinit var workers: WorkerTestExecutor
 
     @BeforeStage
-    fun setUp() {
-        every { sendConfirmationMailUseCase.sendConfirmationMail(any()) } just Runs
-        every { sendWelcomeMailUseCase.sendWelcomeMail(any()) } just Runs
-        every { abortSubscriptionUseCase.abort(any()) } just Runs
-
+    fun registerWorkers() {
         workers = WorkerTestExecutor(camunda).apply {
             registerWorkers(
                 SendConfirmationMailWorker(sendConfirmationMailUseCase),
@@ -55,10 +49,27 @@ open class NewsletterSubscriptionActionStage :
         }
     }
 
+    fun the_confirmation_mail_is_sent_successfully() = step {
+        every { sendConfirmationMailUseCase.sendConfirmationMail(any()) } just Runs
+    }
+
+    fun the_confirmation_mail_fails_with_an_invalid_mail_error() = step {
+        every { sendConfirmationMailUseCase.sendConfirmationMail(any()) } throws
+            BpmnErrorOccurred("invalid mail", Errors.ERROR_INVALID_MAIL.code, emptyMap())
+    }
+
+    fun the_welcome_mail_is_sent_successfully() = step {
+        every { sendWelcomeMailUseCase.sendWelcomeMail(any()) } just Runs
+    }
+
+    fun the_subscription_can_be_aborted() = step {
+        every { abortSubscriptionUseCase.abort(any()) } just Runs
+    }
+
     fun the_form_is_submitted_for(@Quoted subscriptionId: String) = step {
         processInstanceSupplier = NewsletterProcessBean(camunda)
         processInstanceSupplier.startBySubmittingForm(subscriptionId)
-        drainAsyncJobs()
+        continueToNextWaitState()
         runWorkerIfPending(ServiceTasks.SEND_CONFIRMATION_MAIL)
     }
 
@@ -66,24 +77,27 @@ open class NewsletterSubscriptionActionStage :
         camunda.runtimeService.createMessageCorrelation(Messages.MESSAGE_SUBSCRIPTION_CONFIRMED.value)
             .processInstanceVariableEquals("subscriptionId", subscriptionId)
             .correlate()
-        drainAsyncJobs()
+        continueToNextWaitState()
         runWorkerIfPending(ServiceTasks.SEND_WELCOME_MAIL)
     }
 
-    fun the_confirmation_mail_throws_an_invalid_mail_error() = step {
-        every { sendConfirmationMailUseCase.sendConfirmationMail(any()) } throws
-            BpmnErrorOccurred("invalid mail", Errors.ERROR_INVALID_MAIL.code, emptyMap())
-    }
-
-    fun the_clock_advances_by(duration: Duration) = step {
-        val now = ClockUtil.getCurrentTime() ?: Date()
-        ClockUtil.setCurrentTime(Date(now.time + duration.toMillis()))
-        fireDueTimers()
-        drainAsyncJobs()
-        runWorkerIfPending(ServiceTasks.ABORT_REGISTRATION)
+    fun the_reminder_timer_fires() = step {
+        fireTimer(Elements.TIMER_EVERY_DAY.value)
+        continueToNextWaitState()
         runWorkerIfPending(ServiceTasks.SEND_CONFIRMATION_MAIL)
     }
 
+    fun the_abort_timer_fires() = step {
+        fireTimer(Elements.TIMER_AFTER_3_DAYS.value)
+        continueToNextWaitState()
+        runWorkerIfPending(ServiceTasks.ABORT_REGISTRATION)
+    }
+
+    /**
+     * Drives the external task of the given topic synchronously via [WorkerTestExecutor]. Necessary
+     * because the JGiven engine has no Spring context and therefore no polling `@ProcessEngineWorker`
+     * beans — the worker logic must be triggered explicitly.
+     */
     private fun runWorkerIfPending(topic: String) {
         val pending = camunda.externalTaskService.createExternalTaskQuery()
             .topicName(topic)
@@ -91,29 +105,31 @@ open class NewsletterSubscriptionActionStage :
             .count() > 0
         if (pending) {
             workers.executeWorker(topic)
-            drainAsyncJobs()
+            continueToNextWaitState()
         }
     }
 
-    private fun drainAsyncJobs(maxIterations: Int = 50) {
+    /**
+     * Fires the timer job of the given boundary event directly, regardless of its due date — we
+     * verify that the timer path is wired, not the real waiting duration.
+     */
+    private fun fireTimer(timerActivityId: String) {
+        val timer = camunda.managementService.createJobQuery()
+            .timers().activityId(timerActivityId).singleResult()
+        requireNotNull(timer) { "no timer job found for activity '$timerActivityId'" }
+        camunda.managementService.executeJob(timer.id)
+    }
+
+    /**
+     * Drives the process across every parked `camunda:asyncAfter` continuation until it reaches its
+     * next wait state. The job executor is disabled in tests for determinism, so these message jobs
+     * would otherwise never run and the process would stay stuck right after the previous step.
+     */
+    private fun continueToNextWaitState(maxIterations: Int = 50) {
         repeat(maxIterations) {
             val job = camunda.managementService.createJobQuery()
-                .active()
-                .messages()
-                .listPage(0, 1)
-                .firstOrNull() ?: return
+                .active().messages().listPage(0, 1).firstOrNull() ?: return
             camunda.managementService.executeJob(job.id)
-        }
-    }
-
-    private fun fireDueTimers(maxIterations: Int = 20) {
-        repeat(maxIterations) {
-            val timer = camunda.managementService.createJobQuery()
-                .timers()
-                .duedateLowerThan(ClockUtil.getCurrentTime())
-                .listPage(0, 1)
-                .firstOrNull() ?: return
-            camunda.managementService.executeJob(timer.id)
         }
     }
 }

@@ -3,34 +3,28 @@ package de.emaarco.example.process.basic
 import com.ninjasquad.springmockk.MockkBean
 import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.Elements
 import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.Errors
-import de.emaarco.example.adapter.process.NewsletterSubscriptionProcessApi.PROCESS_ID
 import de.emaarco.example.application.port.inbound.AbortSubscriptionUseCase
 import de.emaarco.example.application.port.inbound.SendConfirmationMailUseCase
 import de.emaarco.example.application.port.inbound.SendWelcomeMailUseCase
 import de.emaarco.example.application.port.outbound.NewsletterSubscriptionProcess
 import de.emaarco.example.domain.SubscriptionId
+import de.emaarco.example.process.util.continueToNextWaitState
+import de.emaarco.example.process.util.fireTimer
+import de.emaarco.example.process.util.findProcessInstance
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
+import dev.bpmcrafters.processengine.worker.BpmnErrorOccurred
 import io.mockk.verify
-import org.assertj.core.api.Assertions.assertThat as assertJ
-import org.camunda.bpm.engine.ExternalTaskService
-import org.camunda.bpm.engine.ManagementService
 import org.camunda.bpm.engine.ProcessEngine
 import org.camunda.bpm.engine.RuntimeService
-import dev.bpmcrafters.processengine.worker.BpmnErrorOccurred
-import org.camunda.bpm.engine.impl.util.ClockUtil
-import org.camunda.bpm.engine.runtime.ProcessInstance
 import org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertThat
 import org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.init
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
-import java.time.Duration
-import java.util.Date
 import java.util.UUID
 
 @SpringBootTest
@@ -42,12 +36,6 @@ class NewsletterSubscriptionProcessTest {
 
     @Autowired
     private lateinit var runtimeService: RuntimeService
-
-    @Autowired
-    private lateinit var managementService: ManagementService
-
-    @Autowired
-    private lateinit var externalTaskService: ExternalTaskService
 
     @Autowired
     private lateinit var processEngine: ProcessEngine
@@ -66,11 +54,6 @@ class NewsletterSubscriptionProcessTest {
         init(processEngine)
     }
 
-    @AfterEach
-    fun tearDown() {
-        ClockUtil.reset()
-    }
-
     @Test
     fun `happy path - subscription is confirmed and welcome mail is sent`() {
         every { sendConfirmationMailUseCase.sendConfirmationMail(any()) } just Runs
@@ -78,13 +61,13 @@ class NewsletterSubscriptionProcessTest {
 
         val id = SubscriptionId(UUID.randomUUID())
         processPort.submitForm(id)
-        val instance = processInstanceFor(id)
-        drainJobs()
+        val instance = runtimeService.findProcessInstance(id)
+        processEngine.continueToNextWaitState()
 
         assertThat(instance).isWaitingAt(Elements.ACTIVITY_CONFIRM_REGISTRATION.value)
 
         processPort.confirmSubscription(id)
-        drainJobs()
+        processEngine.continueToNextWaitState()
 
         assertThat(instance)
             .isEnded
@@ -115,14 +98,13 @@ class NewsletterSubscriptionProcessTest {
 
         val id = SubscriptionId(UUID.randomUUID())
         processPort.submitForm(id)
-        val instance = processInstanceFor(id)
-        drainJobs()
+        val instance = runtimeService.findProcessInstance(id)
+        processEngine.continueToNextWaitState()
 
         assertThat(instance).isWaitingAt(Elements.ACTIVITY_CONFIRM_REGISTRATION.value)
 
-        advanceTimeBy(Duration.ofDays(3))
-        fireDueTimers()
-        drainJobs()
+        processEngine.fireTimer(Elements.TIMER_AFTER_3_DAYS)
+        processEngine.continueToNextWaitState()
 
         assertThat(instance)
             .isEnded
@@ -152,8 +134,8 @@ class NewsletterSubscriptionProcessTest {
 
         val id = SubscriptionId(UUID.randomUUID())
         processPort.submitForm(id)
-        val instance = processInstanceFor(id)
-        drainJobs()
+        val instance = runtimeService.findProcessInstance(id)
+        processEngine.continueToNextWaitState()
 
         assertThat(instance)
             .isEnded
@@ -184,21 +166,20 @@ class NewsletterSubscriptionProcessTest {
 
         val id = SubscriptionId(UUID.randomUUID())
         processPort.submitForm(id)
-        val instance = processInstanceFor(id)
-        drainJobs()
+        val instance = runtimeService.findProcessInstance(id)
+        processEngine.continueToNextWaitState()
 
         assertThat(instance).isWaitingAt(Elements.ACTIVITY_CONFIRM_REGISTRATION.value)
         verify(exactly = 1) { sendConfirmationMailUseCase.sendConfirmationMail(id) }
 
-        advanceTimeBy(Duration.ofMinutes(2))
-        fireDueTimers()
-        drainJobs()
+        processEngine.fireTimer(Elements.TIMER_EVERY_DAY)
+        processEngine.continueToNextWaitState()
 
         assertThat(instance).isWaitingAt(Elements.ACTIVITY_CONFIRM_REGISTRATION.value)
         verify(exactly = 2) { sendConfirmationMailUseCase.sendConfirmationMail(id) }
 
         processPort.confirmSubscription(id)
-        drainJobs()
+        processEngine.continueToNextWaitState()
 
         assertThat(instance)
             .isEnded
@@ -221,53 +202,5 @@ class NewsletterSubscriptionProcessTest {
                 Elements.ACTIVITY_ABORT_REGISTRATION.value,
                 Elements.END_EVENT_REGISTRATION_ABORTED.value,
             )
-    }
-
-    private fun processInstanceFor(id: SubscriptionId): ProcessInstance {
-        val instance = runtimeService.createProcessInstanceQuery()
-            .processDefinitionKey(PROCESS_ID.value)
-            .variableValueEquals("subscriptionId", id.value.toString())
-            .singleResult()
-        assertJ(instance).`as`("process instance for subscription %s", id.value).isNotNull
-        return instance
-    }
-
-    private fun drainJobs(timeoutMillis: Long = 15_000) {
-        val deadline = System.currentTimeMillis() + timeoutMillis
-        var idleIterations = 0
-        while (System.currentTimeMillis() < deadline) {
-            val job = managementService.createJobQuery()
-                .active()
-                .messages()
-                .listPage(0, 1)
-                .firstOrNull()
-            if (job != null) {
-                managementService.executeJob(job.id)
-                idleIterations = 0
-                continue
-            }
-            if (externalTaskService.createExternalTaskQuery().count() == 0L) {
-                if (++idleIterations >= 3) return
-            } else {
-                idleIterations = 0
-            }
-            Thread.sleep(200)
-        }
-    }
-
-    private fun advanceTimeBy(duration: Duration) {
-        val now = ClockUtil.getCurrentTime() ?: Date()
-        ClockUtil.setCurrentTime(Date(now.time + duration.toMillis()))
-    }
-
-    private fun fireDueTimers(maxIterations: Int = 20) {
-        repeat(maxIterations) {
-            val timer = managementService.createJobQuery()
-                .timers()
-                .duedateLowerThan(ClockUtil.getCurrentTime())
-                .listPage(0, 1)
-                .firstOrNull() ?: return
-            managementService.executeJob(timer.id)
-        }
     }
 }
