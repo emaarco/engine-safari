@@ -8,9 +8,9 @@ import de.emaarco.example.application.port.inbound.SendConfirmationMailUseCase
 import de.emaarco.example.application.port.inbound.SendWelcomeMailUseCase
 import de.emaarco.example.application.port.outbound.NewsletterSubscriptionProcess
 import de.emaarco.example.domain.SubscriptionId
-import de.emaarco.example.process.util.continueToNextWaitState
-import de.emaarco.example.process.util.fireTimer
-import de.emaarco.example.process.util.findProcessInstance
+import de.emaarco.example.process.basic.util.continueToNextWaitState
+import de.emaarco.example.process.basic.util.fireTimer
+import de.emaarco.example.process.basic.util.findProcessInstance
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just

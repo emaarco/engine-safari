@@ -1,4 +1,4 @@
-package de.emaarco.example.process.util
+package de.emaarco.example.process.basic.util
 
 import io.github.emaarco.bpmn.runtime.ElementId
 import org.cibseven.bpm.engine.ProcessEngine
