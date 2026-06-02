@@ -25,7 +25,7 @@ internal class NewsletterSubscriptionJGivenTest : ScenarioTest<
     companion object {
         @JvmField
         @RegisterExtension
-        val extension: ProcessEngineExtension = ProcessEngineExtension.builder().build()
+        val extension: ProcessEngineExtension = TestProcessEngine.extension()
     }
 
     @ScenarioState
