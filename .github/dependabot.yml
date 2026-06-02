@@ -18,11 +18,16 @@ updates:
           - "minor"
           - "major"
 
-  # Config for docker-compose
-  - package-ecosystem: docker-compose
-    directory: "/"
+  # Config for Docker Compose dependencies
+  - package-ecosystem: "docker-compose"
+    directories:
+      - "/stack"
     schedule:
-      interval: monthly
+      interval: "monthly"
+    labels:
+      - "dependencies"
+    assignees:
+      - "emaarco"
     groups:
       docker-compose:
         patterns:
