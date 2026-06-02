@@ -61,6 +61,7 @@ class NewsletterSubscriptionProcessTest {
 
         val id = SubscriptionId(UUID.randomUUID())
         processPort.submitForm(id)
+
         val instance = runtimeService.findProcessInstance(id)
         processEngine.continueToNextWaitState()
 
@@ -87,6 +88,7 @@ class NewsletterSubscriptionProcessTest {
                 Elements.ERROR_EVENT_INVALID_MAIL.value,
                 Elements.END_EVENT_REGISTRATION_NOT_POSSIBLE.value,
             )
+
         verify(exactly = 1) { sendConfirmationMailUseCase.sendConfirmationMail(id) }
         verify(exactly = 1) { sendWelcomeMailUseCase.sendWelcomeMail(id) }
     }
@@ -123,6 +125,7 @@ class NewsletterSubscriptionProcessTest {
                 Elements.ACTIVITY_SEND_WELCOME_MAIL.value,
                 Elements.END_EVENT_REGISTRATION_COMPLETED.value,
             )
+
         verify(exactly = 1) { abortSubscriptionUseCase.abort(id) }
         verify(exactly = 0) { sendWelcomeMailUseCase.sendWelcomeMail(any()) }
     }

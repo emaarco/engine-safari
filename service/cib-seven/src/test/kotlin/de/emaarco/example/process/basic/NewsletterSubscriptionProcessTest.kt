@@ -56,14 +56,16 @@ class NewsletterSubscriptionProcessTest {
 
     @Test
     fun `happy path - subscription is confirmed and welcome mail is sent`() {
+
         every { sendConfirmationMailUseCase.sendConfirmationMail(any()) } just Runs
         every { sendWelcomeMailUseCase.sendWelcomeMail(any()) } just Runs
 
         val id = SubscriptionId(UUID.randomUUID())
         processPort.submitForm(id)
-        val instance = runtimeService.findProcessInstance(id)
-        processEngine.continueToNextWaitState()
 
+        val instance = runtimeService.findProcessInstance(id)
+
+        processEngine.continueToNextWaitState()
         assertThat(instance).isWaitingAt(Elements.ACTIVITY_CONFIRM_REGISTRATION.value)
 
         processPort.confirmSubscription(id)
