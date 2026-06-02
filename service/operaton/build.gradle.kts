@@ -29,20 +29,6 @@ dependencies {
     testImplementation(project(":common:common-architecture-test"))
 }
 
-configurations.testRuntimeClasspath {
-    // Operaton 2.1.0 is built against Spring Boot 4.0, this project pins 3.5.9. The webapp drags in
-    // Spring Boot 4.0 split modules (health, jackson2, http-converter, …) whose autoconfigurations
-    // then fail against the 3.5.9 core. The basic test does not need the Cockpit, so we keep the
-    // webapp — and the 4.0 modules it pulls — off the test runtime.
-    exclude(group = "org.operaton.bpm.webapp", module = "operaton-webapp")
-    exclude(group = "org.springframework.boot", module = "spring-boot-starter-webmvc")
-    exclude(group = "org.springframework.boot", module = "spring-boot-webmvc-autoconfigure")
-    exclude(group = "org.springframework.boot", module = "spring-boot-jersey-autoconfigure")
-    exclude(group = "org.springframework.boot", module = "spring-boot-health")
-    exclude(group = "org.springframework.boot", module = "spring-boot-health-autoconfigure")
-    exclude(group = "org.springframework.boot", module = "spring-boot-jackson2")
-}
-
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {
     baseDir = projectDir.toString()
     filePattern = "src/main/resources/bpmn/*.bpmn"
