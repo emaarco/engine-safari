@@ -31,7 +31,6 @@ operaton-rest = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-boot
 
 # CIB7 dependencies
 cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp", version.ref = "cib7_version" }
-cib7-rest = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-rest", version.ref = "cib7_version" }
 
 # Process Engine API dependencies
 process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.5" }
@@ -79,7 +78,7 @@ test = ["spring_test", "mockito", "mockk", "spring_mockk", "kotlin_mockito"]
 konsist = ["konsist"]
 camunda7 = ["camunda7-webapp", "camunda7-rest"]
 operaton = ["operaton-webapp", "operaton-rest"]
-cibseven = ["cib7-webapp", "cib7-rest"]
+cibseven = ["cib7-webapp"]
 processEngineApi = ["process-engine-api", "process-engine-adapter-c7-embedded", "process-engine-worker"]
 processEngineApiCib7 = ["process-engine-api", "process-engine-adapter-cib7-embedded", "process-engine-worker"]
 camunda7ProcessTest = ["camunda7-bpm-assert", "h2"]

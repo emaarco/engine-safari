@@ -26,17 +26,6 @@ dependencies {
     testImplementation(project(":common:common-architecture-test"))
 }
 
-configurations.testRuntimeClasspath {
-    exclude(group = "org.cibseven.bpm.springboot", module = "cibseven-bpm-spring-boot-starter-rest")
-    exclude(group = "org.cibseven.bpm.webapp", module = "cibseven-webapp")
-    exclude(group = "org.springframework.boot", module = "spring-boot-starter-webmvc")
-    exclude(group = "org.springframework.boot", module = "spring-boot-webmvc-autoconfigure")
-    exclude(group = "org.springframework.boot", module = "spring-boot-jersey-autoconfigure")
-    exclude(group = "org.springframework.boot", module = "spring-boot-health")
-    exclude(group = "org.springframework.boot", module = "spring-boot-health-autoconfigure")
-    exclude(group = "org.springframework.boot", module = "spring-boot-jackson2")
-}
-
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {
     baseDir = projectDir.toString()
     filePattern = "src/main/resources/bpmn/*.bpmn"
