@@ -8,22 +8,22 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.jpa)
     alias(libs.plugins.kotlin.spring)
-    alias(libs.plugins.springframeworkDepr)
+    alias(libs.plugins.springframework)
     alias(libs.plugins.spring.dependency)
     alias(libs.plugins.bpmnToCode)
 }
 
 dependencies {
     implementation(platform(libs.process.engine.adapter.cib7.bom))
-    implementation(libs.bundles.defaultServiceDepr)
-    implementation(libs.bundles.databaseDepr)
-    implementation(libs.cib7.webappDepr)
+    implementation(libs.bundles.defaultService)
+    implementation(libs.bundles.database)
+    implementation(libs.cib7.webapp)
     implementation(libs.bundles.processEngineApiCib7)
     implementation(libs.bpmn.to.code.runtime)
-    testImplementation(libs.bundles.testDepr)
+    testImplementation(libs.bundles.test)
     testImplementation(libs.bundles.cib7ProcessTest)
     testImplementation(libs.bundles.cib7JGiven)
-    testImplementation(project(":common:common-architecture-test"))
+    testImplementation("de.emaarco.example:common-architecture-test")
 }
 
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {

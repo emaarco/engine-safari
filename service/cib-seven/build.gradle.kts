@@ -24,7 +24,7 @@ dependencies {
     testImplementation(libs.bundles.test)
     testImplementation(libs.bundles.cib7ProcessTest)
     testImplementation(libs.bundles.cib7JGiven)
-    testImplementation(project(":common:common-architecture-test"))
+    testImplementation("de.emaarco.example:common-architecture-test")
 }
 
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {

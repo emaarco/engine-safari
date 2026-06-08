@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="cib-seven-Example" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-    <module name="engine-safari.service.cib-seven.main" />
+    <module name="engine-safari-spring-boot-4.cib-seven.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.emaarco.example.CibSevenExample" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />

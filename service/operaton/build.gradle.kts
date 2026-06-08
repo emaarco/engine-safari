@@ -26,7 +26,7 @@ dependencies {
     // No JGiven library exists for Operaton — holunda's camunda-bpm-jgiven is hard-bound
     // to org.camunda.bpm.* types, which Operaton renames to org.operaton.bpm.*.
     // Operaton therefore ships only the `basic` Spring Boot integration test.
-    testImplementation(project(":common:common-architecture-test"))
+    testImplementation("de.emaarco.example:common-architecture-test")
 }
 
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {

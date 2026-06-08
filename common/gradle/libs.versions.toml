@@ -1,0 +1,15 @@
+[versions]
+kotlin_version = "2.3.21"
+konsist_version = "0.17.3"
+
+[libraries]
+konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist_version" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version = "5.11.4" }
+
+[bundles]
+konsist = ["konsist"]
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin_version" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin_version" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin_version" }

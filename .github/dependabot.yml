@@ -3,7 +3,10 @@ updates:
 
   # Config for backend-dependencies
   - package-ecosystem: "gradle"
-    directory: "/"
+    directories:
+      - "/spring-boot-4"
+      - "/spring-boot-3"
+      - "/common"
     schedule:
       interval: "monthly"
     ignore:
