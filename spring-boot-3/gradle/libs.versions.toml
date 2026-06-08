@@ -1,14 +1,14 @@
 [versions]
-spring_version = "3.5.9"
+spring_version = "3.5.14"
 spring_dependency_version = "1.1.7"
-kotlin_version = "2.3.21"
+kotlin_version = "2.4.0"
 kotlin_logging_version = "3.0.5"
 camunda7_version = "7.24.0"
 cib7_version = "2.2.0"
 process_engine_adapter_cib7_version = "2026.02.1"
-process_engine_adapter_c7_version = "2026.04.2"
-camunda7_jgiven_version = "2025.10.1"
-cib7_jgiven_version = "1.0.0"
+process_engine_adapter_c7_version = "2026.06.1"
+camunda7_jgiven_version = "2026.04.2"
+cib7_jgiven_version = "2.1.0"
 jgiven_kotlin_version = "2.0.2.1"
 
 [libraries]
@@ -26,7 +26,7 @@ camunda7-webapp = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot
 cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp", version.ref = "cib7_version" }
 
 # Process Engine API dependencies
-process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.5" }
+process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.6" }
 bpmn-to-code-runtime = { module = "io.github.emaarco:bpmn-to-code-runtime", version = "2.1.2" }
 process-engine-worker = { module = "dev.bpm-crafters.process-engine-worker:process-engine-worker-spring-boot-starter", version = "0.8.3" }
 
@@ -44,7 +44,7 @@ mockito = { module = "org.mockito:mockito-inline", version = "5.2.0" }
 kotlin_mockito = { module = "org.mockito.kotlin:mockito-kotlin", version = "6.3.0" }
 mockk = { module = "io.mockk:mockk", version = "1.14.11" }
 spring_mockk = { module = "com.ninja-squad:springmockk", version = "5.0.1" }
-h2 = { module = "com.h2database:h2", version = "2.3.232" }
+h2 = { module = "com.h2database:h2", version = "2.4.240" }
 
 # Process test - Camunda 7
 camunda7-bpm-assert = { module = "org.camunda.bpm:camunda-bpm-assert", version.ref = "camunda7_version" }
