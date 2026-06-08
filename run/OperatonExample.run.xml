@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="OperatonExample" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-    <module name="engine-safari.service.operaton.main" />
+    <module name="engine-safari-spring-boot-4.operaton.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.emaarco.example.OperatonExample" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />

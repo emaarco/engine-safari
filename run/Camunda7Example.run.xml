@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Camunda7Example" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-    <module name="engine-safari.service.camunda-7.main" />
+    <module name="engine-safari-spring-boot-3.camunda-7.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.emaarco.example.Camunda7Example" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />

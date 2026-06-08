@@ -6,8 +6,13 @@ on:
 
 jobs:
   build:
-    name: Build with Gradle
+    name: Build ${{ matrix.build }}
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build: [ spring-boot-4, spring-boot-3 ]
 
     steps:
       # Step 1: Checkout code
@@ -27,4 +32,4 @@ jobs:
 
       # Step 4: Run Gradle build
       - name: Run Gradle Build
-        run: ./gradlew build
+        run: ./gradlew -p ${{ matrix.build }} build

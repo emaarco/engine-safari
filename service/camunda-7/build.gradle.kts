@@ -11,20 +11,20 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.jpa)
     alias(libs.plugins.kotlin.spring)
-    alias(libs.plugins.springframeworkDepr)
+    alias(libs.plugins.springframework)
     alias(libs.plugins.spring.dependency)
     alias(libs.plugins.bpmnToCode)
 }
 
 dependencies {
-    implementation(libs.bundles.defaultServiceDepr)
-    implementation(libs.bundles.databaseDepr)
+    implementation(libs.bundles.defaultService)
+    implementation(libs.bundles.database)
     implementation(libs.bundles.camunda7)
     implementation(libs.bpmn.to.code.runtime)
-    testImplementation(libs.bundles.testDepr)
+    testImplementation(libs.bundles.test)
     testImplementation(libs.bundles.camunda7ProcessTest)
     testImplementation(libs.bundles.camunda7JGiven)
-    testImplementation(project(":common:common-architecture-test"))
+    testImplementation("de.emaarco.example:common-architecture-test")
 }
 
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {
