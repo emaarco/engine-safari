@@ -1,6 +1,6 @@
 package de.emaarco.example.process.basic.util
 
-import io.github.emaarco.bpmn.runtime.ElementId
+import io.miragon.bpmn.runtime.ElementId
 import org.operaton.bpm.engine.ProcessEngine
 
 /**

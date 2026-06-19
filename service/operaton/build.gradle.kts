@@ -1,6 +1,6 @@
-import io.github.emaarco.bpmn.adapter.GenerateBpmnModelsTask
-import io.github.emaarco.bpmn.domain.shared.OutputLanguage
-import io.github.emaarco.bpmn.domain.shared.ProcessEngine
+import io.miragon.bpmn.adapter.GenerateBpmnModelsTask
+import io.miragon.bpmn.domain.shared.OutputLanguage
+import io.miragon.bpmn.domain.shared.ProcessEngine
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
