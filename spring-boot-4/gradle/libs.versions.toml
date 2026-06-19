@@ -22,7 +22,7 @@ operaton-webapp = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-bo
 # CIB7 dependencies
 cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp-4", version.ref = "cib7_version" }
 
-bpmn-to-code-runtime = { module = "io.github.emaarco:bpmn-to-code-runtime", version = "2.1.2" }
+bpmn-to-code-runtime = { module = "io.miragon:bpmn-to-code-runtime", version = "3.0.0" }
 
 # testing
 spring_test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring_version" }
@@ -61,4 +61,4 @@ kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin_ver
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin_version" }
 springframework = { id = "org.springframework.boot", version.ref = "spring_version" }
 spring-dependency = { id = "io.spring.dependency-management", version.ref = "spring_dependency_version" }
-bpmnToCode = { id = "io.github.emaarco.bpmn-to-code-gradle", version = "2.1.2" }
+bpmnToCode = { id = "io.miragon.bpmn-to-code-gradle", version = "3.0.0" }
