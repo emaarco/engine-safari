@@ -34,6 +34,19 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      # Step 3b: Build the Spring Boot 4 CIB Seven process-engine adapter into the local
+      # Maven repository. The adapter (bpm-crafters PR #72) is not yet released, and the
+      # spring-boot-4 build resolves it from mavenLocal. Clone OUTSIDE the workspace so the
+      # module's Konsist architecture test does not scan the adapter's sources.
+      # Remove this step once the adapter is published to a public repository.
+      - name: Build CIB Seven SB4 adapter to mavenLocal
+        if: matrix.build == 'spring-boot-4'
+        run: |
+          git clone --depth 1 --branch emaarco/spring-boot-4-support \
+            https://github.com/bpm-crafters/process-engine-adapters-cib-seven.git "$RUNNER_TEMP/cib7-adapter"
+          cd "$RUNNER_TEMP/cib7-adapter"
+          ./mvnw -B -q -DskipTests clean install
+
       # Step 4: Run Gradle build
       - name: Run Gradle Build
         run: ./gradlew -p ${{ matrix.build }} build
