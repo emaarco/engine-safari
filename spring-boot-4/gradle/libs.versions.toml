@@ -1,9 +1,9 @@
 [versions]
-spring_version = "4.0.6"
+spring_version = "4.1.0"
 spring_dependency_version = "1.1.7"
 kotlin_version = "2.4.0"
 kotlin_logging_version = "3.0.5"
-operaton_version = "2.1.1"
+operaton_version = "2.1.2"
 cib7_version = "2.2.0"
 cib7_jgiven_version = "2.1.0"
 jgiven_kotlin_version = "2.0.2.1"
@@ -12,7 +12,7 @@ jgiven_kotlin_version = "2.0.2.1"
 web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring_version" }
 devtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "spring_version" }
 jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring_version" }
-postgres = { module = "org.postgresql:postgresql", version = "42.7.11" }
+postgres = { module = "org.postgresql:postgresql", version = "42.7.12" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin_version" }
 kotlin_logging = { module = "io.github.microutils:kotlin-logging", version.ref = "kotlin_logging_version" }
 
@@ -22,7 +22,7 @@ operaton-webapp = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-bo
 # CIB7 dependencies
 cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp-4", version.ref = "cib7_version" }
 
-bpmn-to-code-runtime = { module = "io.miragon:bpmn-to-code-runtime", version = "3.0.0" }
+bpmn-to-code-runtime = { module = "io.miragon:bpmn-to-code-runtime", version = "3.1.0" }
 
 # testing
 spring_test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring_version" }
@@ -61,4 +61,4 @@ kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin_ver
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin_version" }
 springframework = { id = "org.springframework.boot", version.ref = "spring_version" }
 spring-dependency = { id = "io.spring.dependency-management", version.ref = "spring_dependency_version" }
-bpmnToCode = { id = "io.miragon.bpmn-to-code-gradle", version = "3.0.0" }
+bpmnToCode = { id = "io.miragon.bpmn-to-code-gradle", version = "3.1.0" }
