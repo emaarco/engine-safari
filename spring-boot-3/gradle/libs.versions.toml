@@ -1,12 +1,12 @@
 [versions]
-spring_version = "3.5.14"
+spring_version = "3.5.16"
 spring_dependency_version = "1.1.7"
 kotlin_version = "2.4.0"
 kotlin_logging_version = "3.0.5"
 camunda7_version = "7.24.0"
 cib7_version = "2.2.0"
 process_engine_adapter_cib7_version = "2026.02.1"
-process_engine_adapter_c7_version = "2026.06.1"
+process_engine_adapter_c7_version = "2026.06.2"
 camunda7_jgiven_version = "2026.04.2"
 cib7_jgiven_version = "2.1.0"
 jgiven_kotlin_version = "2.0.2.1"
@@ -15,7 +15,7 @@ jgiven_kotlin_version = "2.0.2.1"
 web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring_version" }
 devtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "spring_version" }
 jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring_version" }
-postgres = { module = "org.postgresql:postgresql", version = "42.7.11" }
+postgres = { module = "org.postgresql:postgresql", version = "42.7.12" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin_version" }
 kotlin_logging = { module = "io.github.microutils:kotlin-logging", version.ref = "kotlin_logging_version" }
 
@@ -26,9 +26,9 @@ camunda7-webapp = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot
 cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp", version.ref = "cib7_version" }
 
 # Process Engine API dependencies
-process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.6" }
-bpmn-to-code-runtime = { module = "io.miragon:bpmn-to-code-runtime", version = "3.0.0" }
-process-engine-worker = { module = "dev.bpm-crafters.process-engine-worker:process-engine-worker-spring-boot-starter", version = "0.8.3" }
+process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.7" }
+bpmn-to-code-runtime = { module = "io.miragon:bpmn-to-code-runtime", version = "3.1.0" }
+process-engine-worker = { module = "dev.bpm-crafters.process-engine-worker:process-engine-worker-spring-boot-starter", version = "0.8.4" }
 
 # C7 Process Engine Adapter
 process-engine-adapter-c7-embedded = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-camunda-platform-c7-embedded-spring-boot-starter", version.ref = "process_engine_adapter_c7_version" }
@@ -79,4 +79,4 @@ kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin_ver
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin_version" }
 springframework = { id = "org.springframework.boot", version.ref = "spring_version" }
 spring-dependency = { id = "io.spring.dependency-management", version.ref = "spring_dependency_version" }
-bpmnToCode = { id = "io.miragon.bpmn-to-code-gradle", version = "3.0.0" }
+bpmnToCode = { id = "io.miragon.bpmn-to-code-gradle", version = "3.1.0" }
