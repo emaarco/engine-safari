@@ -4,11 +4,8 @@ spring_dependency_version = "1.1.7"
 kotlin_version = "2.4.0"
 kotlin_logging_version = "3.0.5"
 camunda7_version = "7.24.0"
-cib7_version = "2.2.0"
-process_engine_adapter_cib7_version = "2026.02.1"
 process_engine_adapter_c7_version = "2026.06.2"
 camunda7_jgiven_version = "2026.04.2"
-cib7_jgiven_version = "2.1.0"
 jgiven_kotlin_version = "2.0.2.1"
 
 [libraries]
@@ -22,9 +19,6 @@ kotlin_logging = { module = "io.github.microutils:kotlin-logging", version.ref =
 # Camunda 7 dependencies
 camunda7-webapp = { module = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp", version.ref = "camunda7_version" }
 
-# CIB7 dependencies (Spring Boot 3 variant)
-cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp", version.ref = "cib7_version" }
-
 # Process Engine API dependencies
 process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.7" }
 bpmn-to-code-runtime = { module = "io.miragon:bpmn-to-code-runtime", version = "3.1.0" }
@@ -33,10 +27,6 @@ process-engine-worker = { module = "dev.bpm-crafters.process-engine-worker:proce
 # C7 Process Engine Adapter
 process-engine-adapter-c7-embedded = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-camunda-platform-c7-embedded-spring-boot-starter", version.ref = "process_engine_adapter_c7_version" }
 process-engine-adapter-c7-bom = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-camunda-platform-c7-bom", version.ref = "process_engine_adapter_c7_version" }
-
-# CIB7 Process Engine Adapter dependencies
-process-engine-adapter-cib7-embedded = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-cib-seven-embedded-spring-boot-starter", version.ref = "process_engine_adapter_cib7_version" }
-process-engine-adapter-cib7-bom = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-cib-seven-bom", version.ref = "process_engine_adapter_cib7_version" }
 
 # testing
 spring_test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring_version" }
@@ -49,16 +39,11 @@ h2 = { module = "com.h2database:h2", version = "2.4.240" }
 # Process test - Camunda 7
 camunda7-bpm-assert = { module = "org.camunda.bpm:camunda-bpm-assert", version.ref = "camunda7_version" }
 
-# Process test - CIB Seven
-cib7-bpm-assert = { module = "org.cibseven.bpm:cibseven-bpm-assert", version.ref = "cib7_version" }
-
 # JGiven
 camunda7-bpm-jgiven = { module = "io.holunda.testing:camunda-bpm-jgiven", version.ref = "camunda7_jgiven_version" }
-cib7-bpm-jgiven = { module = "org.cibseven.community:cibseven-bpm-jgiven", version.ref = "cib7_jgiven_version" }
 jgiven-kotlin = { module = "io.toolisticon.testing:jgiven-kotlin", version.ref = "jgiven_kotlin_version" }
 jgiven-junit5 = { module = "com.tngtech.jgiven:jgiven-junit5", version = "2.0.3" }
 camunda7-bpm-junit5 = { module = "org.camunda.bpm:camunda-bpm-junit5", version.ref = "camunda7_version" }
-cib7-bpm-junit5 = { module = "org.cibseven.bpm:cibseven-bpm-junit5", version.ref = "cib7_version" }
 
 [bundles]
 defaultService = ["kotlin-reflect", "kotlin_logging", "devtools", "web"]
@@ -66,11 +51,8 @@ database = ["jpa", "postgres"]
 test = ["spring_test", "mockito", "mockk", "spring_mockk", "kotlin_mockito"]
 camunda7 = ["camunda7-webapp"]
 processEngineApi = ["process-engine-api", "process-engine-adapter-c7-embedded", "process-engine-worker"]
-processEngineApiCib7 = ["process-engine-api", "process-engine-adapter-cib7-embedded", "process-engine-worker"]
 camunda7ProcessTest = ["camunda7-bpm-assert", "h2"]
-cib7ProcessTest = ["cib7-bpm-assert", "h2"]
 camunda7JGiven = ["camunda7-bpm-jgiven", "camunda7-bpm-junit5", "jgiven-kotlin", "jgiven-junit5"]
-cib7JGiven = ["cib7-bpm-jgiven", "cib7-bpm-junit5", "jgiven-kotlin", "jgiven-junit5"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin_version" }

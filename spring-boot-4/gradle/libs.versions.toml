@@ -5,6 +5,7 @@ kotlin_version = "2.4.0"
 kotlin_logging_version = "3.0.5"
 operaton_version = "2.1.2"
 cib7_version = "2.2.0"
+process_engine_adapter_cib7_version = "2026.07.1"
 cib7_jgiven_version = "2.1.0"
 jgiven_kotlin_version = "2.0.2.1"
 
@@ -21,6 +22,14 @@ operaton-webapp = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-bo
 
 # CIB7 dependencies
 cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp-4", version.ref = "cib7_version" }
+
+# Process Engine API dependencies
+process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.7" }
+process-engine-worker = { module = "dev.bpm-crafters.process-engine-worker:process-engine-worker-spring-boot-starter", version = "0.8.4" }
+
+# CIB7 Process Engine Adapter dependencies (Spring Boot 4)
+process-engine-adapter-cib7-embedded = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-cib-seven-embedded-spring-boot-starter", version.ref = "process_engine_adapter_cib7_version" }
+process-engine-adapter-cib7-bom = { module = "dev.bpm-crafters.process-engine-adapters:process-engine-adapter-cib-seven-bom", version.ref = "process_engine_adapter_cib7_version" }
 
 bpmn-to-code-runtime = { module = "io.miragon:bpmn-to-code-runtime", version = "3.1.0" }
 
@@ -50,6 +59,7 @@ database = ["jpa", "postgres"]
 test = ["spring_test", "mockito", "mockk", "spring_mockk", "kotlin_mockito"]
 operaton = ["operaton-webapp"]
 cibseven = ["cib7-webapp"]
+processEngineApiCib7 = ["process-engine-api", "process-engine-adapter-cib7-embedded", "process-engine-worker"]
 operatonProcessTest = ["operaton-bpm-assert", "h2"]
 cib7ProcessTest = ["cib7-bpm-assert", "h2"]
 cib7JGiven = ["cib7-bpm-jgiven", "cib7-bpm-junit5", "jgiven-kotlin", "jgiven-junit5"]
