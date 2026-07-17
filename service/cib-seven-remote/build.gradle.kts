@@ -2,42 +2,31 @@ import io.miragon.bpmn.adapter.GenerateBpmnModelsTask
 import io.miragon.bpmn.domain.shared.OutputLanguage
 import io.miragon.bpmn.domain.shared.ProcessEngine
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.kapt)
-    alias(libs.plugins.kotlin.jpa)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.springframework)
     alias(libs.plugins.spring.dependency)
     alias(libs.plugins.bpmnToCode)
 }
 
-configurations.all {
-    // CIB Seven 2.2.0 pulls in both the generic `cibseven-webclient-web` and the Spring-Boot-4
-    // variant `cibseven-webclient-web-spring-boot-4`. The generic one calls
-    // PathMatchConfigurer.setUseSuffixPatternMatch(...), which was removed in Spring 7 / Spring
-    // Boot 4, and crashes the app on start-up. Drop it so only the SB4 variant remains.
-    exclude(group = "org.cibseven.webapp", module = "cibseven-webclient-web")
-}
-
 dependencies {
     implementation(libs.bundles.defaultService)
-    implementation(libs.bundles.database)
-    implementation(libs.bundles.cibseven)
+    implementation(libs.cib7.external.task.client)
     implementation(libs.bpmn.to.code.runtime)
+    // The external-task client (de)serializes typed variables via JAXB, which is
+    // not on the classpath of a standalone worker – provide it explicitly.
+    implementation("jakarta.xml.bind:jakarta.xml.bind-api")
+    runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
     testImplementation(libs.bundles.test)
-    testImplementation(libs.bundles.cib7ProcessTest)
-    testImplementation(libs.bundles.cib7JGiven)
     testImplementation("de.emaarco.example:common-architecture-test")
 }
 
 tasks.register<GenerateBpmnModelsTask>("generateBpmnModels") {
     baseDir = projectDir.toString()
-    filePattern = "src/main/resources/bpmn/*.bpmn"
+    filePattern = "src/main/resources/bpmn/bike-order.bpmn"
     outputFolderPath = "$projectDir/src/main/kotlin"
     packagePath = "de.emaarco.example.adapter.process"
     outputLanguage = OutputLanguage.KOTLIN

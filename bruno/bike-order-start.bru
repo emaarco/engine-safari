@@ -1,0 +1,21 @@
+meta {
+  name: Bike order - start
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8082/api/bike-orders
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "orderTotal": 500
+  }
+}
+
+vars:post-response {
+  orderId: res.body.orderId
+}

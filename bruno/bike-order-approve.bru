@@ -1,0 +1,15 @@
+meta {
+  name: Bike order - manager approval
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8082/api/bike-orders/:orderId/approve
+  body: none
+  auth: none
+}
+
+params:path {
+  orderId: {{orderId}}
+}
