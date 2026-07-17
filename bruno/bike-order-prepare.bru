@@ -1,0 +1,15 @@
+meta {
+  name: Bike order - prepare bike
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:8082/api/bike-orders/:orderId/prepare
+  body: none
+  auth: none
+}
+
+params:path {
+  orderId: {{orderId}}
+}

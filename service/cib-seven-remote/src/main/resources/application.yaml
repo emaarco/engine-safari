@@ -1,0 +1,24 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: cib-seven-remote
+
+# CIB Seven External Task Client – connects to the *remote* engine hosted by
+# the plain `service/cib-seven` app and fetches/locks the external service-tasks.
+# Topic subscriptions are declared via @ExternalTaskSubscription annotations.
+camunda:
+  bpm:
+    client:
+      base-url: http://localhost:8081/engine-rest
+      worker-id: bikeLeasing-worker
+      lock-duration: 20000
+      # Only needed if the engine's REST API is protected:
+      # basic-auth:
+      #   username: admin
+      #   password: admin
+
+# Base URL used by the RestClient to start the process and complete user tasks.
+bike-order:
+  engine-rest-base-url: http://localhost:8081/engine-rest

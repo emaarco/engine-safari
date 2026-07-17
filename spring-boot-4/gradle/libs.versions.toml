@@ -22,6 +22,8 @@ operaton-webapp = { module = "org.operaton.bpm.springboot:operaton-bpm-spring-bo
 
 # CIB7 dependencies
 cib7-webapp = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp-4", version.ref = "cib7_version" }
+cib7-rest = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-rest-4", version.ref = "cib7_version" }
+cib7-external-task-client = { module = "org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-external-task-client-4", version.ref = "cib7_version" }
 
 # Process Engine API dependencies
 process-engine-api = { module = "dev.bpm-crafters.process-engine-api:process-engine-api", version = "1.7" }
@@ -58,7 +60,7 @@ defaultService = ["kotlin-reflect", "kotlin_logging", "devtools", "web"]
 database = ["jpa", "postgres"]
 test = ["spring_test", "mockito", "mockk", "spring_mockk", "kotlin_mockito"]
 operaton = ["operaton-webapp"]
-cibseven = ["cib7-webapp"]
+cibseven = ["cib7-webapp", "cib7-rest"]
 processEngineApiCib7 = ["process-engine-api", "process-engine-adapter-cib7-embedded", "process-engine-worker"]
 operatonProcessTest = ["operaton-bpm-assert", "h2"]
 cib7ProcessTest = ["cib7-bpm-assert", "h2"]

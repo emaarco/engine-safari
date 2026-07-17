@@ -39,6 +39,10 @@ reminder resend — using the engine's official `bpm-assert` library.
 
 ### Remote Engines
 
+- **🌿🛰️ [CIB-Seven Remote](service/cib-seven-remote)** – Same CIB7 engine, remote topology:
+  the model is deployed in the embedded [`cib-seven`](service/cib-seven) engine while the
+  service tasks are consumed as **external tasks** by a separate worker service (bike-order process)
+
 For **Zeebe** ([Camunda 8](https://camunda.com/de/platform/zeebe/)),
 check out [easy-zeebe](https://github.com/emaarco/easy-zeebe)
 
