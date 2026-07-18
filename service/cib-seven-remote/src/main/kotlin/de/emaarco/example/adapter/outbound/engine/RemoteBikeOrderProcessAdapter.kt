@@ -1,4 +1,4 @@
-package de.emaarco.example.adapter.outbound.remoteengine
+package de.emaarco.example.adapter.outbound.engine
 
 import de.emaarco.example.adapter.process.BikeOrderProcessProcessApi.Elements
 import de.emaarco.example.adapter.process.BikeOrderProcessProcessApi.Messages
