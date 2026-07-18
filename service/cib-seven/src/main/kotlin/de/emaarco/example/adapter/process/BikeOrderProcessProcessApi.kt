@@ -8,6 +8,7 @@ import io.miragon.bpmn.runtime.BpmnFlow
 import io.miragon.bpmn.runtime.BpmnRelations
 import io.miragon.bpmn.runtime.BpmnTimer
 import io.miragon.bpmn.runtime.ElementId
+import io.miragon.bpmn.runtime.MessageName
 import io.miragon.bpmn.runtime.ProcessId
 import kotlin.String
 import kotlin.Suppress
@@ -23,11 +24,18 @@ object BikeOrderProcessProcessApi {
    * Worker runtime code rarely needs these.
    */
   object Elements {
+    val BOUNDARY_EVENT_DEFECT_DISCOVERED: ElementId =
+        ElementId("BoundaryEvent_defectDiscovered")
+
     val BOUNDARY_EVENT_REMINDER: ElementId = ElementId("BoundaryEvent_reminder")
+
+    val END_EVENT_ORDER_CANCELLED: ElementId = ElementId("EndEvent_orderCancelled")
 
     val END_EVENT_REMINDER_SENT: ElementId = ElementId("EndEvent_reminderSent")
 
     val END_EVENT_SHIPPED: ElementId = ElementId("EndEvent_shipped")
+
+    val EVENT_PAYMENT_CHARGED: ElementId = ElementId("Event_paymentCharged")
 
     val GATEWAY_APPROVAL_MERGE: ElementId = ElementId("Gateway_approvalMerge")
 
@@ -39,13 +47,26 @@ object BikeOrderProcessProcessApi {
 
     val TASK_CHARGE_PAYMENT: ElementId = ElementId("Task_ChargePayment")
 
+    val TASK_GENERATE_DISCOUNT: ElementId = ElementId("Task_GenerateDiscount")
+
     val TASK_MANAGER_APPROVAL: ElementId = ElementId("Task_ManagerApproval")
+
+    val TASK_NOTIFY_CUSTOMER: ElementId = ElementId("Task_NotifyCustomer")
 
     val TASK_PREPARE_BIKE: ElementId = ElementId("Task_PrepareBike")
 
     val TASK_SEND_REMINDER: ElementId = ElementId("Task_SendReminder")
 
     val TASK_SHIP_ORDER: ElementId = ElementId("Task_ShipOrder")
+  }
+
+  /**
+   * BPMN message names used to correlate messages to running process instances.
+   */
+  object Messages {
+    val MESSAGE_DEFECT_DISCOVERED: MessageName = MessageName("Message_DefectDiscovered")
+
+    val MESSAGE_PAYMENT_CHARGED: MessageName = MessageName("Message_PaymentCharged")
   }
 
   /**
@@ -56,6 +77,11 @@ object BikeOrderProcessProcessApi {
     const val BIKE_LEASING_AUTO_APPROVE: String = "bikeLeasing.autoApprove"
 
     const val BIKE_LEASING_CHARGE_PAYMENT: String = "bikeLeasing.chargePayment"
+
+    const val BIKE_LEASING_GENERATE_DISCOUNT_CODE: String =
+        "bikeLeasing.generateDiscountCode"
+
+    const val BIKE_LEASING_NOTIFY_CUSTOMER: String = "bikeLeasing.notifyCustomer"
 
     const val BIKE_LEASING_SEND_REMINDER: String = "bikeLeasing.sendReminder"
 
@@ -78,10 +104,28 @@ object BikeOrderProcessProcessApi {
           targetRef = "Gateway_approvalMerge",
         )
 
-    val FLOW_CHARGE_TO_SHIP: BpmnFlow = BpmnFlow(
-          id = "Flow_charge_to_ship",
+    val FLOW_CHARGE_TO_CONFIRM: BpmnFlow = BpmnFlow(
+          id = "Flow_charge_to_confirm",
           sourceRef = "Task_ChargePayment",
+          targetRef = "Event_paymentCharged",
+        )
+
+    val FLOW_CONFIRM_TO_SHIP: BpmnFlow = BpmnFlow(
+          id = "Flow_confirm_to_ship",
+          sourceRef = "Event_paymentCharged",
           targetRef = "Task_ShipOrder",
+        )
+
+    val FLOW_DEFECT_TO_DISCOUNT: BpmnFlow = BpmnFlow(
+          id = "Flow_defect_to_discount",
+          sourceRef = "BoundaryEvent_defectDiscovered",
+          targetRef = "Task_GenerateDiscount",
+        )
+
+    val FLOW_DISCOUNT_TO_NOTIFY: BpmnFlow = BpmnFlow(
+          id = "Flow_discount_to_notify",
+          sourceRef = "Task_GenerateDiscount",
+          targetRef = "Task_NotifyCustomer",
         )
 
     val FLOW_MANAGER_TO_MERGE: BpmnFlow = BpmnFlow(
@@ -94,6 +138,12 @@ object BikeOrderProcessProcessApi {
           id = "Flow_merge_to_prepare",
           sourceRef = "Gateway_approvalMerge",
           targetRef = "Task_PrepareBike",
+        )
+
+    val FLOW_NOTIFY_TO_CANCELLED: BpmnFlow = BpmnFlow(
+          id = "Flow_notify_to_cancelled",
+          sourceRef = "Task_NotifyCustomer",
+          targetRef = "EndEvent_orderCancelled",
         )
 
     val FLOW_PREPARE_TO_CHARGE: BpmnFlow = BpmnFlow(
@@ -148,12 +198,30 @@ object BikeOrderProcessProcessApi {
    * Intended for tooling and tests, not worker runtime code.
    */
   object Relations {
+    val BOUNDARY_EVENT_DEFECT_DISCOVERED: BpmnRelations = BpmnRelations(
+          name = "Defect discovered",
+          previousElements = emptyList(),
+          followingElements = listOf("Task_GenerateDiscount"),
+          parentId = null,
+          attachedToRef = "Task_PrepareBike",
+          attachedElements = emptyList(),
+        )
+
     val BOUNDARY_EVENT_REMINDER: BpmnRelations = BpmnRelations(
           name = "After 2 minutes",
           previousElements = emptyList(),
           followingElements = listOf("Task_SendReminder"),
           parentId = null,
           attachedToRef = "Task_ManagerApproval",
+          attachedElements = emptyList(),
+        )
+
+    val END_EVENT_ORDER_CANCELLED: BpmnRelations = BpmnRelations(
+          name = "Order cancelled",
+          previousElements = listOf("Task_NotifyCustomer"),
+          followingElements = emptyList(),
+          parentId = null,
+          attachedToRef = null,
           attachedElements = emptyList(),
         )
 
@@ -170,6 +238,15 @@ object BikeOrderProcessProcessApi {
           name = "Order shipped",
           previousElements = listOf("Task_ShipOrder"),
           followingElements = emptyList(),
+          parentId = null,
+          attachedToRef = null,
+          attachedElements = emptyList(),
+        )
+
+    val EVENT_PAYMENT_CHARGED: BpmnRelations = BpmnRelations(
+          name = "Payment charged",
+          previousElements = listOf("Task_ChargePayment"),
+          followingElements = listOf("Task_ShipOrder"),
           parentId = null,
           attachedToRef = null,
           attachedElements = emptyList(),
@@ -213,7 +290,16 @@ object BikeOrderProcessProcessApi {
     val TASK_CHARGE_PAYMENT: BpmnRelations = BpmnRelations(
           name = "Charge Payment",
           previousElements = listOf("Task_PrepareBike"),
-          followingElements = listOf("Task_ShipOrder"),
+          followingElements = listOf("Event_paymentCharged"),
+          parentId = null,
+          attachedToRef = null,
+          attachedElements = emptyList(),
+        )
+
+    val TASK_GENERATE_DISCOUNT: BpmnRelations = BpmnRelations(
+          name = "Generate Discount Code",
+          previousElements = listOf("BoundaryEvent_defectDiscovered"),
+          followingElements = listOf("Task_NotifyCustomer"),
           parentId = null,
           attachedToRef = null,
           attachedElements = emptyList(),
@@ -228,13 +314,22 @@ object BikeOrderProcessProcessApi {
           attachedElements = listOf("BoundaryEvent_reminder"),
         )
 
+    val TASK_NOTIFY_CUSTOMER: BpmnRelations = BpmnRelations(
+          name = "Notify Customer",
+          previousElements = listOf("Task_GenerateDiscount"),
+          followingElements = listOf("EndEvent_orderCancelled"),
+          parentId = null,
+          attachedToRef = null,
+          attachedElements = emptyList(),
+        )
+
     val TASK_PREPARE_BIKE: BpmnRelations = BpmnRelations(
           name = "Prepare Bike",
           previousElements = listOf("Gateway_approvalMerge"),
           followingElements = listOf("Task_ChargePayment"),
           parentId = null,
           attachedToRef = null,
-          attachedElements = emptyList(),
+          attachedElements = listOf("BoundaryEvent_defectDiscovered"),
         )
 
     val TASK_SEND_REMINDER: BpmnRelations = BpmnRelations(
@@ -248,7 +343,7 @@ object BikeOrderProcessProcessApi {
 
     val TASK_SHIP_ORDER: BpmnRelations = BpmnRelations(
           name = "Ship Order",
-          previousElements = listOf("Task_ChargePayment"),
+          previousElements = listOf("Event_paymentCharged"),
           followingElements = listOf("EndEvent_shipped"),
           parentId = null,
           attachedToRef = null,

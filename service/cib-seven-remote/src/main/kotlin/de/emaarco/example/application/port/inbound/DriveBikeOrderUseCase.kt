@@ -10,4 +10,7 @@ interface DriveBikeOrderUseCase {
     fun startOrder(orderTotal: Long): OrderId
     fun approveByManager(orderId: OrderId)
     fun completeBikePreparation(orderId: OrderId)
+
+    /** Reports a defect discovered while preparing the bike – escalates and cancels the order. */
+    fun reportDefect(orderId: OrderId)
 }

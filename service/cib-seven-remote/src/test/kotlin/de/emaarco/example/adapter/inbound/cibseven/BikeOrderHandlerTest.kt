@@ -71,6 +71,29 @@ class BikeOrderHandlerTest {
     }
 
     @Test
+    fun `generate discount code completes the task with the generated code`() {
+        every { useCase.generateDiscountCode(orderId) } returns "MIRAVELO-ABC123"
+
+        GenerateDiscountHandler(useCase).execute(externalTask, externalTaskService)
+
+        verify(exactly = 1) { useCase.generateDiscountCode(orderId) }
+        verify(exactly = 1) {
+            externalTaskService.complete(externalTask, mapOf("discountCode" to "MIRAVELO-ABC123"))
+        }
+    }
+
+    @Test
+    fun `notify customer reads the discount code and completes the task`() {
+        every { externalTask.getVariable<String>("discountCode") } returns "MIRAVELO-ABC123"
+        every { useCase.notifyCustomer(orderId, "MIRAVELO-ABC123") } just Runs
+
+        NotifyCustomerHandler(useCase).execute(externalTask, externalTaskService)
+
+        verify(exactly = 1) { useCase.notifyCustomer(orderId, "MIRAVELO-ABC123") }
+        verify(exactly = 1) { externalTaskService.complete(externalTask) }
+    }
+
+    @Test
     fun `a failing use case is reported to the engine via handleFailure`() {
         every { useCase.shipOrder(orderId) } throws RuntimeException("boom")
 

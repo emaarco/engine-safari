@@ -23,4 +23,16 @@ class BikeLeasingServiceTest {
             service.shipOrder(orderId)
         }.doesNotThrowAnyException()
     }
+
+    @Test
+    fun `generate discount code returns a non-blank code`() {
+        assertThat(service.generateDiscountCode(orderId)).isNotBlank()
+    }
+
+    @Test
+    fun `notifying the customer with a discount code runs without failing`() {
+        assertThatCode {
+            service.notifyCustomer(orderId, service.generateDiscountCode(orderId))
+        }.doesNotThrowAnyException()
+    }
 }

@@ -19,6 +19,9 @@ camunda:
       #   username: admin
       #   password: admin
 
-# Base URL used by the RestClient to start the process and complete user tasks.
+# Base URL used by the RestClient to start the process, complete user tasks and correlate messages.
 bike-order:
   engine-rest-base-url: http://localhost:8081/engine-rest
+  payment-confirmation:
+    # How often the scheduler broadcasts the 'Payment charged' message back to the engine (ms).
+    poll-interval: 10000
