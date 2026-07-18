@@ -1,4 +1,4 @@
-package de.emaarco.example.adapter.outbound.remoteengine
+package de.emaarco.example.adapter.outbound.engine
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
