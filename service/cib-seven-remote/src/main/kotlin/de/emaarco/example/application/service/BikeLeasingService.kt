@@ -31,4 +31,17 @@ class BikeLeasingService : BikeLeasingUseCase {
     override fun shipOrder(orderId: OrderId) {
         log.info { "Shipping bike for order ${orderId.value}" }
     }
+
+    override fun generateDiscountCode(orderId: OrderId): String {
+        val code = "MIRAVELO-${orderId.value.takeLast(6).uppercase()}"
+        log.info { "Defect found on order ${orderId.value} – generated discount code $code" }
+        return code
+    }
+
+    override fun notifyCustomer(orderId: OrderId, discountCode: String) {
+        log.info {
+            "Notifying customer of order ${orderId.value}: please pick a new bike, " +
+                "here is your discount code $discountCode"
+        }
+    }
 }

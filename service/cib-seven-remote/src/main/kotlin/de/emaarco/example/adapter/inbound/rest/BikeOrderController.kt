@@ -37,6 +37,13 @@ class BikeOrderController(private val useCase: DriveBikeOrderUseCase) {
         return ResponseEntity.noContent().build()
     }
 
+    @PostMapping("/{orderId}/report-defect")
+    fun reportDefect(@PathVariable orderId: String): ResponseEntity<Unit> {
+        log.debug { "Received REST-request to report a defect for order: $orderId" }
+        useCase.reportDefect(OrderId(orderId))
+        return ResponseEntity.noContent().build()
+    }
+
     data class StartOrderRequest(val orderTotal: Long)
 
     data class StartOrderResponse(val orderId: String)

@@ -27,4 +27,9 @@ class DriveBikeOrderService(
         log.info { "Completing 'Prepare Bike' for order ${orderId.value}" }
         process.completeBikePreparation(orderId)
     }
+
+    override fun reportDefect(orderId: OrderId) {
+        log.info { "Reporting a defect for order ${orderId.value} – escalating" }
+        process.reportDefect(orderId)
+    }
 }

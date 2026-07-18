@@ -39,12 +39,29 @@
       <bpmn:incoming>Flow_merge_to_prepare</bpmn:incoming>
       <bpmn:outgoing>Flow_prepare_to_charge</bpmn:outgoing>
     </bpmn:userTask>
+    <bpmn:boundaryEvent id="BoundaryEvent_defectDiscovered" name="Defect discovered" attachedToRef="Task_PrepareBike">
+      <bpmn:outgoing>Flow_defect_to_discount</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_defectDiscovered" messageRef="Message_DefectDiscovered" />
+    </bpmn:boundaryEvent>
+    <bpmn:serviceTask id="Task_GenerateDiscount" name="Generate Discount Code" camunda:type="external" camunda:topic="bikeLeasing.generateDiscountCode">
+      <bpmn:incoming>Flow_defect_to_discount</bpmn:incoming>
+      <bpmn:outgoing>Flow_discount_to_notify</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_NotifyCustomer" name="Notify Customer" camunda:type="external" camunda:topic="bikeLeasing.notifyCustomer">
+      <bpmn:incoming>Flow_discount_to_notify</bpmn:incoming>
+      <bpmn:outgoing>Flow_notify_to_cancelled</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:serviceTask id="Task_ChargePayment" name="Charge Payment" camunda:type="external" camunda:topic="bikeLeasing.chargePayment">
       <bpmn:incoming>Flow_prepare_to_charge</bpmn:incoming>
-      <bpmn:outgoing>Flow_charge_to_ship</bpmn:outgoing>
+      <bpmn:outgoing>Flow_charge_to_confirm</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="Event_paymentCharged" name="Payment charged">
+      <bpmn:incoming>Flow_charge_to_confirm</bpmn:incoming>
+      <bpmn:outgoing>Flow_confirm_to_ship</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_paymentCharged" messageRef="Message_PaymentCharged" />
+    </bpmn:intermediateCatchEvent>
     <bpmn:serviceTask id="Task_ShipOrder" name="Ship Order" camunda:type="external" camunda:topic="bikeLeasing.shipOrder">
-      <bpmn:incoming>Flow_charge_to_ship</bpmn:incoming>
+      <bpmn:incoming>Flow_confirm_to_ship</bpmn:incoming>
       <bpmn:outgoing>Flow_ship_to_end</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="EndEvent_shipped" name="Order shipped">
@@ -61,9 +78,18 @@
     <bpmn:sequenceFlow id="Flow_auto_to_merge" sourceRef="Task_AutoApprove" targetRef="Gateway_approvalMerge" />
     <bpmn:sequenceFlow id="Flow_merge_to_prepare" sourceRef="Gateway_approvalMerge" targetRef="Task_PrepareBike" />
     <bpmn:sequenceFlow id="Flow_prepare_to_charge" sourceRef="Task_PrepareBike" targetRef="Task_ChargePayment" />
-    <bpmn:sequenceFlow id="Flow_charge_to_ship" sourceRef="Task_ChargePayment" targetRef="Task_ShipOrder" />
+    <bpmn:sequenceFlow id="Flow_charge_to_confirm" sourceRef="Task_ChargePayment" targetRef="Event_paymentCharged" />
+    <bpmn:sequenceFlow id="Flow_confirm_to_ship" sourceRef="Event_paymentCharged" targetRef="Task_ShipOrder" />
     <bpmn:sequenceFlow id="Flow_ship_to_end" sourceRef="Task_ShipOrder" targetRef="EndEvent_shipped" />
+    <bpmn:sequenceFlow id="Flow_defect_to_discount" sourceRef="BoundaryEvent_defectDiscovered" targetRef="Task_GenerateDiscount" />
+    <bpmn:sequenceFlow id="Flow_discount_to_notify" sourceRef="Task_GenerateDiscount" targetRef="Task_NotifyCustomer" />
+    <bpmn:sequenceFlow id="Flow_notify_to_cancelled" sourceRef="Task_NotifyCustomer" targetRef="EndEvent_orderCancelled" />
+    <bpmn:endEvent id="EndEvent_orderCancelled" name="Order cancelled">
+      <bpmn:incoming>Flow_notify_to_cancelled</bpmn:incoming>
+    </bpmn:endEvent>
   </bpmn:process>
+  <bpmn:message id="Message_PaymentCharged" name="Message_PaymentCharged" />
+  <bpmn:message id="Message_DefectDiscovered" name="Message_DefectDiscovered" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="bikeOrderProcess">
       <bpmndi:BPMNShape id="StartEvent_orderReceived_di" bpmnElement="StartEvent_orderReceived">
@@ -78,6 +104,18 @@
           <dc:Bounds x="258" y="201" width="64" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ManagerApproval_di" bpmnElement="Task_ManagerApproval">
+        <dc:Bounds x="390" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SendReminder_di" bpmnElement="Task_SendReminder">
+        <dc:Bounds x="520" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_reminderSent_di" bpmnElement="EndEvent_reminderSent">
+        <dc:Bounds x="682" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="668" y="145" width="72" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_AutoApprove_di" bpmnElement="Task_AutoApprove">
         <dc:Bounds x="390" y="330" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -87,28 +125,40 @@
       <bpmndi:BPMNShape id="Task_PrepareBike_di" bpmnElement="Task_PrepareBike">
         <dc:Bounds x="650" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_ManagerApproval_di" bpmnElement="Task_ManagerApproval">
-        <dc:Bounds x="390" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_ChargePayment_di" bpmnElement="Task_ChargePayment">
         <dc:Bounds x="790" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_ShipOrder_di" bpmnElement="Task_ShipOrder">
-        <dc:Bounds x="920" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="EndEvent_shipped_di" bpmnElement="EndEvent_shipped">
-        <dc:Bounds x="1052" y="232" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_paymentCharged_di" bpmnElement="Event_paymentCharged">
+        <dc:Bounds x="952" y="232" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1036" y="275" width="70" height="14" />
+          <dc:Bounds x="929" y="275" width="82" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_SendReminder_di" bpmnElement="Task_SendReminder">
-        <dc:Bounds x="520" y="80" width="100" height="80" />
+      <bpmndi:BPMNShape id="Task_ShipOrder_di" bpmnElement="Task_ShipOrder">
+        <dc:Bounds x="1050" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="EndEvent_reminderSent_di" bpmnElement="EndEvent_reminderSent">
-        <dc:Bounds x="682" y="102" width="36" height="36" />
+      <bpmndi:BPMNShape id="EndEvent_shipped_di" bpmnElement="EndEvent_shipped">
+        <dc:Bounds x="1182" y="232" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="668" y="145" width="72" height="14" />
+          <dc:Bounds x="1166" y="275" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_NotifyCustomer_di" bpmnElement="Task_NotifyCustomer">
+        <dc:Bounds x="920" y="340" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_GenerateDiscount_di" bpmnElement="Task_GenerateDiscount">
+        <dc:Bounds x="790" y="340" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1823nme_di" bpmnElement="EndEvent_orderCancelled">
+        <dc:Bounds x="1082" y="362" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1064" y="405" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryEvent_defectDiscovered_di" bpmnElement="BoundaryEvent_defectDiscovered">
+        <dc:Bounds x="682" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="705" y="313" width="89" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BoundaryEvent_reminder_di" bpmnElement="BoundaryEvent_reminder">
@@ -162,13 +212,30 @@
         <di:waypoint x="750" y="250" />
         <di:waypoint x="790" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_charge_to_ship_di" bpmnElement="Flow_charge_to_ship">
+      <bpmndi:BPMNEdge id="Flow_charge_to_confirm_di" bpmnElement="Flow_charge_to_confirm">
         <di:waypoint x="890" y="250" />
-        <di:waypoint x="920" y="250" />
+        <di:waypoint x="952" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_confirm_to_ship_di" bpmnElement="Flow_confirm_to_ship">
+        <di:waypoint x="988" y="250" />
+        <di:waypoint x="1050" y="250" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_ship_to_end_di" bpmnElement="Flow_ship_to_end">
-        <di:waypoint x="1020" y="250" />
-        <di:waypoint x="1052" y="250" />
+        <di:waypoint x="1150" y="250" />
+        <di:waypoint x="1182" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_defect_to_discount_di" bpmnElement="Flow_defect_to_discount">
+        <di:waypoint x="700" y="308" />
+        <di:waypoint x="700" y="380" />
+        <di:waypoint x="790" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_discount_to_notify_di" bpmnElement="Flow_discount_to_notify">
+        <di:waypoint x="890" y="380" />
+        <di:waypoint x="920" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_notify_to_cancelled_di" bpmnElement="Flow_notify_to_cancelled">
+        <di:waypoint x="1020" y="380" />
+        <di:waypoint x="1082" y="380" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
