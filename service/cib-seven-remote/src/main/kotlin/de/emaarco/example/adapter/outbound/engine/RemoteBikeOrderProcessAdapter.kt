@@ -1,6 +1,7 @@
-package de.emaarco.example.adapter.outbound.remoteengine
+package de.emaarco.example.adapter.outbound.engine
 
 import de.emaarco.example.adapter.process.BikeOrderProcessProcessApi.Elements
+import de.emaarco.example.adapter.process.BikeOrderProcessProcessApi.Messages
 import de.emaarco.example.adapter.process.BikeOrderProcessProcessApi.PROCESS_ID
 import de.emaarco.example.application.port.outbound.BikeOrderProcess
 import de.emaarco.example.domain.OrderId
@@ -44,6 +45,27 @@ class RemoteBikeOrderProcessAdapter(
 
     override fun completeBikePreparation(orderId: OrderId) {
         completeUserTask(orderId, Elements.TASK_PREPARE_BIKE.value)
+    }
+
+    override fun broadcastPaymentCharged() {
+        val messageName = Messages.MESSAGE_PAYMENT_CHARGED.value
+        engineRestClient.post()
+            .uri("/message")
+            // `all = true` correlates to every waiting instance and does not error when none wait.
+            .body(mapOf("messageName" to messageName, "all" to true))
+            .retrieve()
+            .toBodilessEntity()
+        log.debug { "Broadcasted '$messageName' message to the remote engine" }
+    }
+
+    override fun reportDefect(orderId: OrderId) {
+        val messageName = Messages.MESSAGE_DEFECT_DISCOVERED.value
+        engineRestClient.post()
+            .uri("/message")
+            .body(mapOf("messageName" to messageName, "processInstanceId" to orderId.value))
+            .retrieve()
+            .toBodilessEntity()
+        log.info { "Reported defect for order ${orderId.value} (correlated '$messageName')" }
     }
 
     private fun completeUserTask(orderId: OrderId, taskDefinitionKey: String) {

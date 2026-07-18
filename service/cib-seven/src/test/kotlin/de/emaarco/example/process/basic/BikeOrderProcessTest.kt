@@ -1,6 +1,7 @@
 package de.emaarco.example.process.basic
 
 import de.emaarco.example.adapter.process.BikeOrderProcessProcessApi.Elements
+import de.emaarco.example.adapter.process.BikeOrderProcessProcessApi.Messages
 import de.emaarco.example.adapter.process.BikeOrderProcessProcessApi.PROCESS_ID
 import de.emaarco.example.adapter.process.BikeOrderProcessProcessApi.ServiceTasks
 import de.emaarco.example.process.basic.util.completeExternalTask
@@ -41,6 +42,18 @@ class BikeOrderProcessTest {
     private fun startOrder(orderTotal: Long): ProcessInstance =
         runtimeService.startProcessInstanceByKey(PROCESS_ID.value, mapOf("orderTotal" to orderTotal))
 
+    /** Mirrors the remote `PaymentConfirmationScheduler` correlating the `Payment charged` message. */
+    private fun confirmPaymentCharged(instance: ProcessInstance) =
+        runtimeService.createMessageCorrelation(Messages.MESSAGE_PAYMENT_CHARGED.value)
+            .processInstanceId(instance.id)
+            .correlate()
+
+    /** Mirrors the remote `reportDefect` endpoint correlating the `Defect discovered` message. */
+    private fun reportDefect(instance: ProcessInstance) =
+        runtimeService.createMessageCorrelation(Messages.MESSAGE_DEFECT_DISCOVERED.value)
+            .processInstanceId(instance.id)
+            .correlate()
+
     @Test
     fun `auto-approve path - order below threshold is shipped without a manager`() {
         val instance = startOrder(500)
@@ -54,6 +67,9 @@ class BikeOrderProcessTest {
         assertThat(instance).isWaitingAt(Elements.TASK_CHARGE_PAYMENT.value)
         processEngine.completeExternalTask(ServiceTasks.BIKE_LEASING_CHARGE_PAYMENT)
 
+        assertThat(instance).isWaitingAt(Elements.EVENT_PAYMENT_CHARGED.value)
+        confirmPaymentCharged(instance)
+
         assertThat(instance).isWaitingAt(Elements.TASK_SHIP_ORDER.value)
         processEngine.completeExternalTask(ServiceTasks.BIKE_LEASING_SHIP_ORDER)
 
@@ -64,6 +80,7 @@ class BikeOrderProcessTest {
                 Elements.TASK_AUTO_APPROVE.value,
                 Elements.TASK_PREPARE_BIKE.value,
                 Elements.TASK_CHARGE_PAYMENT.value,
+                Elements.EVENT_PAYMENT_CHARGED.value,
                 Elements.TASK_SHIP_ORDER.value,
                 Elements.END_EVENT_SHIPPED.value,
             )
@@ -87,6 +104,9 @@ class BikeOrderProcessTest {
         assertThat(instance).isWaitingAt(Elements.TASK_CHARGE_PAYMENT.value)
         processEngine.completeExternalTask(ServiceTasks.BIKE_LEASING_CHARGE_PAYMENT)
 
+        assertThat(instance).isWaitingAt(Elements.EVENT_PAYMENT_CHARGED.value)
+        confirmPaymentCharged(instance)
+
         assertThat(instance).isWaitingAt(Elements.TASK_SHIP_ORDER.value)
         processEngine.completeExternalTask(ServiceTasks.BIKE_LEASING_SHIP_ORDER)
 
@@ -97,6 +117,7 @@ class BikeOrderProcessTest {
                 Elements.TASK_MANAGER_APPROVAL.value,
                 Elements.TASK_PREPARE_BIKE.value,
                 Elements.TASK_CHARGE_PAYMENT.value,
+                Elements.EVENT_PAYMENT_CHARGED.value,
                 Elements.TASK_SHIP_ORDER.value,
                 Elements.END_EVENT_SHIPPED.value,
             )
@@ -124,6 +145,7 @@ class BikeOrderProcessTest {
         complete(task(instance))
         complete(task(instance))
         processEngine.completeExternalTask(ServiceTasks.BIKE_LEASING_CHARGE_PAYMENT)
+        confirmPaymentCharged(instance)
         processEngine.completeExternalTask(ServiceTasks.BIKE_LEASING_SHIP_ORDER)
 
         assertThat(instance)
@@ -132,6 +154,43 @@ class BikeOrderProcessTest {
                 Elements.BOUNDARY_EVENT_REMINDER.value,
                 Elements.TASK_SEND_REMINDER.value,
                 Elements.END_EVENT_REMINDER_SENT.value,
+                Elements.EVENT_PAYMENT_CHARGED.value,
+                Elements.END_EVENT_SHIPPED.value,
+            )
+    }
+
+    @Test
+    fun `defect path - reporting a defect during preparation cancels the order with a discount`() {
+        val instance = startOrder(500)
+
+        assertThat(instance).isWaitingAt(Elements.TASK_AUTO_APPROVE.value)
+        processEngine.completeExternalTask(ServiceTasks.BIKE_LEASING_AUTO_APPROVE, mapOf("approved" to true))
+
+        // A defect is discovered while preparing the bike -> interrupting boundary event escalates.
+        assertThat(instance).isWaitingAt(Elements.TASK_PREPARE_BIKE.value)
+        reportDefect(instance)
+
+        assertThat(instance).isWaitingAt(Elements.TASK_GENERATE_DISCOUNT.value)
+        processEngine.completeExternalTask(
+            ServiceTasks.BIKE_LEASING_GENERATE_DISCOUNT_CODE,
+            mapOf("discountCode" to "MIRAVELO-TEST01"),
+        )
+
+        assertThat(instance).isWaitingAt(Elements.TASK_NOTIFY_CUSTOMER.value)
+        processEngine.completeExternalTask(ServiceTasks.BIKE_LEASING_NOTIFY_CUSTOMER)
+
+        assertThat(instance)
+            .isEnded
+            .hasPassedInOrder(
+                Elements.TASK_PREPARE_BIKE.value,
+                Elements.BOUNDARY_EVENT_DEFECT_DISCOVERED.value,
+                Elements.TASK_GENERATE_DISCOUNT.value,
+                Elements.TASK_NOTIFY_CUSTOMER.value,
+                Elements.END_EVENT_ORDER_CANCELLED.value,
+            )
+            .hasNotPassed(
+                Elements.TASK_CHARGE_PAYMENT.value,
+                Elements.TASK_SHIP_ORDER.value,
                 Elements.END_EVENT_SHIPPED.value,
             )
     }
