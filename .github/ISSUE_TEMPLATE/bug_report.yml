@@ -1,5 +1,5 @@
 name: Bug Report
-description: Report a bug or unexpected behaviour in engine-safari
+description: Report a bug or unexpected behaviour in Metamorphmagus
 title: "[Bug]: "
 labels:
   - bug

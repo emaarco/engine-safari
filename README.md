@@ -1,7 +1,12 @@
-# 🦁 Engine Safari
+# 🧬 Metamorphmagus
 
-Welcome to **Engine Safari** –
+Welcome to **Metamorphmagus** –
 my playground and exploration of embedded BPMN workflow engines 🌍
+
+A *Metamorphmagus* can change their appearance at will while staying the very same person.
+That's exactly what this repository does with a workflow: **one process, many forms**.
+The same **newsletter subscription process** takes on a different engine each time –
+same soul, different shape.
 
 ## 🧭 Why This Exists
 
@@ -14,15 +19,16 @@ What are your options if you want to stick with embedded orchestration
 rather than moving to remote/cloud-based solutions?
 
 While **Camunda 8 (Zeebe)** is the cloud-native, remote successor
-(explored in our sister repo [easy-zeebe](https://github.com/marcoag/easy-zeebe)),
-this safari focuses on **embedded alternatives** –
+(explored in our sister repo [easy-zeebe](https://github.com/emaarco/easy-zeebe)),
+this repository focuses on **embedded alternatives** –
 engines that run inside your domain-application.
 
-## 🗺️ The Specimens
+## 🗺️ The Forms
 
 Each engine has its own module with a complete Spring Boot implementation.
 All modules implement the same **newsletter subscription process** –
 simple, but demonstrates the full workflow lifecycle.
+It's the same identity wearing a different face in every module.
 
 ![Newsletter Subscription Process](docs/newsletter-process.png)
 
@@ -55,4 +61,6 @@ check out [easy-zeebe](https://github.com/emaarco/easy-zeebe)
 
 ---
 
-**🦁 Happy exploring! May your migrations be smooth and your processes orchestrate beautifully.** ✨
+**🧬 Happy shape-shifting! May your migrations be smooth and your processes orchestrate beautifully.** ✨
+</content>
+</invoke>

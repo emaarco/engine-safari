@@ -4,7 +4,7 @@ A **remote** operation example for **CIB7**: the engine only *hosts and deploys*
 process, while all service-task logic runs in **this separate, stateless service** and is
 consumed as **external tasks** over the engine's REST API.
 
-This is the counterpart to the embedded [`cib-seven`](../cib-seven) specimen: same engine,
+This is the counterpart to the embedded [`cib-seven`](../cib-seven) form: same engine,
 opposite topology.
 
 ## How it works
